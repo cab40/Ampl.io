@@ -10,7 +10,7 @@ import CheckIcon from '../assets/svgs/CheckIcon';
 export default class Home extends React.Component{
     render(){
         return (
-            <View style = {styles.container}>
+            <ScrollView style = {styles.container}>
                 <View style = {{height: 20}}/>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={{fontSize: 30, fontWeight: "600"}}> Today. </Text>
@@ -30,7 +30,7 @@ export default class Home extends React.Component{
                     <GoalRow />
                     <GoalRow />
                 </ScrollView>
-            </View>
+            </ScrollView>
         );
     }
 }
