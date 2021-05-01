@@ -1,36 +1,23 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import Profile from './Profile.js';
-import AddGoal from './AddGoal.js';
-import Home from './Home.js';
-import { Icon } from 'react-native-elements'
+import { createStackNavigator } from '@react-navigation/stack';
+import Login from './Login.js';
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator(
+  //{headerMode: 'none'}
+  );
 
 export default function App() {
   return (
-      <NavigationContainer>
-        <Tab.Navigator  screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'Profile') {
-              iconName = 'person';
-            } else if (route.name === 'Add Goal') {
-              iconName = 'edit';
-            } else if (route.name === 'Home') {
-              iconName = 'house';
-            } 
-
-            return <Icon name = {iconName} iconStyle = {{color: '#B8CFF2'}} />
-          },
-        })}>
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Add Goal" component={AddGoal} /><Tab.Screen name="Profile" component={Profile} />
-        </Tab.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions = {{headerShown: false}}>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
