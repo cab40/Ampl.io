@@ -1,64 +1,47 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
+import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+import RNPickerSelect from 'react-native-picker-select';
+import { ScrollView } from 'react-native';
+
+const data = [
+  { x: 1, y: 67 },
+  { x: 2, y: 23 },
+  { x: 3, y: 99 },
+  { x: 4, y: 25 },
+  { x: 5, y: 78 },
+  { x: 6, y: 40 },
+  { x: 7, y: 65 }
+];
 
 export default class Profile extends React.Component {
-  state = {selectedIndex: 1};
+  state = {
+    selectedIndex: 0,
+    timeLine: '5',
+    timeUnit: 'Days'
+  };
 
   render() {
     const buttons = ['D', 'W', 'M'];
-    const data = {
-      labels: ["M", "T", "W", "T", "F", "S", "S"],
-      datasets: [
-        {
-          data: [20, 45, 28, 80, 99, 43, 2],
-          color: (opacity = 1) => `rgba(134, 65, 244, ${opacity}`,
-        }
-      ]
-    };
-
-    const commitsData = [
-      { date: "2021-04-27", count: 1, color: 'red'},
-      { date: "2021-04-03", count: 2 },
-      { date: "2021-04-04", count: 3 },
-      { date: "2021-04-05", count: 4 },
-      { date: "2021-04-06", count: 5 },
-      { date: "2021-04-30", count: 2 },
-      { date: "2021-04-31", count: 3 },
-      { date: "2021-04-01", count: 2 },
-      { date: "2021-04-02", count: 4 },
-      { date: "2021-04-05", count: 2 },
-      { date: "2021-04-30", count: 4 }
-    ];
-
 
     const chartConfig = {
-      backgroundColor: '#1cc910',
       backgroundGradientFrom: "#ffffff",
-      backgroundGradientFromOpacity: 1,
-      backgroundGradientToOpacity: 1,
       backgroundGradientTo: "#ffffff",
       //color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-      color: (opacity = 1) => {return this.state.selectedIndex == 1 ? `rgba(0, 0, 0, ${opacity})` : `rgba(124, 235, 217, ${opacity})`},
+      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
       strokeWidth: 3, // optional, default 3
       barPercentage: 0.5,
+      barRadius: 5,
       fillShadowGradient: '#b8cff2',
       fillShadowGradientOpacity: 1,
-      style : {
+      style: {
         padding: 0,
         margin: -200
       }
     };
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
           <Image style={styles.picture} source={require('../assets/cute.png')} />
           <Text style={styles.name}> Full Name </Text>
@@ -71,7 +54,7 @@ export default class Profile extends React.Component {
           </View>
           <View style={{ flexDirection: 'row', marginBottom: 10 }}>
             <Text style={{ fontWeight: 'bold' }}> Friend Code</Text>
-            <Text style = {{color: "#B8CFF2"}}> 28cx89 </Text>
+            <Text style={{ color: "#B8CFF2" }}> 28cx89 </Text>
           </View>
         </View>
 
@@ -84,47 +67,56 @@ export default class Profile extends React.Component {
         />
 
         <View style={{ marginTop: 10 }}>
-          <Text style = {{marginBottom: 10, fontSize: 30, fontWeight: 'bold'}}> Progress.</Text>
+          <Text style={{ marginBottom: 10, fontSize: 30, fontWeight: 'bold' }}> Progress.</Text>
 
           <ButtonGroup
-            onPress={(e) => this.setState({selectedIndex : e})}
-            buttonStyle = {{backgroundColor: '#F2F3F3'}}
-            selectedButtonStyle = {{backgroundColor: '#C1E7E1'}}
-            selectedTextStyle = {{color: '#6B6565'}}
-            textStyle = {{color: '#6B6565'}}
-            buttonContainerStyle = {{height: 40}}
+            onPress={(e) => this.setState({ selectedIndex: e, timeUnit: e == 0 ? 'Days' : e == 1 ? 'Weeks' : 'Months' })}
+            buttonStyle={{ backgroundColor: '#F2F3F3' }}
+            selectedButtonStyle={{ backgroundColor: '#C1E7E1' }}
+            selectedTextStyle={{ color: '#6B6565' }}
+            textStyle={{ color: '#6B6565' }}
+            buttonContainerStyle={{ height: 40 }}
             selectedIndex={this.state.selectedIndex}
             buttons={buttons}
             containerStyle={{ height: 40, borderRadius: 20, marginBottom: 30 }}
           />
 
-          {this.state.selectedIndex == 1 ? <BarChart
-            style={styles.graph}
-            data={data}
-            width={300}
-            height={250}
-            chartConfig={chartConfig}
-            verticalLabelRotation={30}
-            showBarTops = {false}
-            showValuesOnTopOfBars = {true}
-            withHorizontalLabels = {false}
-            fromZero =  {true}
-            withInnerLines = {false}
-            
-          /> : <ContributionGraph
-          style = {styles.monthGraph}
-          values={commitsData}
-          endDate={new Date("2021-05-01")}
-          squareSize = {30}
-          numDays={31}
-          width={300}
-          height={250}
-          chartConfig={chartConfig}
-          horizontal = {false}
-          showMonthLabels = {false}
-        />}
+          <VictoryChart width={320} padding={30}>
+            <VictoryBar style={{ data: { fill: ({ datum }) => { return datum._x % 2 === 0 ? '#b8cff2' : '#c1e7e1' } } }} data={data.slice(-1*parseInt(this.state.timeLine))} cornerRadius={{ bottom: 12, top: 12 }} barRatio={1} labels={({ datum }) => `${datum.y}%`} />
+            <VictoryAxis style={{
+              axis: { stroke: "transparent" },
+              ticks: { stroke: "transparent" },
+              tickLabels: { fill: "transparent" }
+            }} />
+          </VictoryChart>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text> Before  </Text>
+
+            <View style={{ flexDirection: 'row' }}>
+              <Text>Last </Text>
+               <RNPickerSelect
+                onValueChange={(value) => {console.log(value); console.log(this.state.timeLine); console.log(value !== null)
+                  if(value) this.setState({timeLine: value})
+                  console.log(this.state.timeLine);
+                }}
+                value = {this.state.timeLine}
+                items={[
+                  { label: `2 ${this.state.timeUnit}`, value: '2' },
+                  { label: `3 ${this.state.timeUnit}`, value: '3' },
+                  { label: `4 ${this.state.timeUnit}`, value: '4' },
+                  { label: `5 ${this.state.timeUnit}`, value: '5' },
+                  { label: `6 ${this.state.timeUnit}`, value: '6' },
+                  { label: `7 ${this.state.timeUnit}`, value: '7' },
+                ]}
+              />
+            </View>
+
+            <Text> Now </Text>
+          </View>
+
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -150,18 +142,5 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     //borderColor: 'blue',
     //borderWidth: 1
-  },
-  graph : {
-    alignSelf: 'stretch',
-    borderColor: 'blue',
-    //borderWidth: 1,
-    padding: 0,
-    marginLeft: -30
-  },
-  monthGraph : {
-    padding: 0,
-    alignSelf : 'center',
-    borderColor: 'blue',
-    //borderWidth: 1,
   }
 });

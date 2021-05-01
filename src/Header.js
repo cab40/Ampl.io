@@ -10,6 +10,8 @@ export default class Login extends React.Component {
       <View style={styles.container} >
         <Image style = {styles.picture} source = {require('../assets/hehe.jpeg')}/>
 
+        <Text> 😡 </Text>
+
         <View>
           <Icon onPress = {() => console.log("chat")} type = 'font-awesome' name = 'commenting' 
           color = '#B8CFF2' size = {30} />

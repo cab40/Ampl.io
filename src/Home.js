@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, LayoutAnimation} from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, LayoutAnimation, ScrollView} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import People from '../assets/svgs/People';
 import DownIcon from '../assets/svgs/DownIcon';
@@ -10,7 +10,7 @@ import CheckIcon from '../assets/svgs/CheckIcon';
 export default class Home extends React.Component{
     render(){
         return (
-            <View style = {styles.container}>
+            <ScrollView style = {styles.container}>
                 <View style = {{height: 20}}/>
                 <Text style={{fontSize: 30, fontWeight: "600"}}> Today. </Text>
                 <GoalRow />
@@ -28,7 +28,7 @@ export default class Home extends React.Component{
                 </View>
                 <GoalRow />
                 <GoalRow />
-            </View>
+            </ScrollView>
         );
     }
 }
