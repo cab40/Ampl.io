@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Login';
 import Main from './Main';
+import ChatInbox from './ChatInbox';
 
 const Stack = createStackNavigator(
   //{headerMode: 'none'}
@@ -15,8 +16,7 @@ export default class App extends React.Component {
         <View style={styles.container}>
             <StatusBar style="auto" />
             <NavigationContainer>
-              <Stack.Navigator initialRouteName={"Login"} 
-              screenOptions = {{headerShown: false}}>
+              <Stack.Navigator initialRouteName={"ChatInbox"} screenOptions = {{headerShown: false}}>
                 <Stack.Screen
                   name="Login"
                   component={Login}
@@ -24,6 +24,10 @@ export default class App extends React.Component {
                 <Stack.Screen
                   name="Main"
                   component={Main}
+                />
+                <Stack.Screen
+                  name="ChatInbox"
+                  component={ChatInbox}
                 />
               </Stack.Navigator>
             </NavigationContainer>

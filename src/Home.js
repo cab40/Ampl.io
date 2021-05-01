@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, LayoutAnimation} from 'react-native';
+import { TouchableOpacity, ScrollView, StyleSheet, Text, View, LayoutAnimation} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import People from '../assets/svgs/People';
 import DownIcon from '../assets/svgs/DownIcon';
@@ -12,22 +12,24 @@ export default class Home extends React.Component{
         return (
             <View style = {styles.container}>
                 <View style = {{height: 20}}/>
-                <Text style={{fontSize: 30, fontWeight: "600"}}> Today. </Text>
-                <GoalRow />
-                <GoalRow />
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <Text style={{fontSize: 30, fontWeight: "600"}}> Today. </Text>
+                    <GoalRow />
+                    <GoalRow />
 
-                <View>
-                    <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Week. </Text>
-                </View>
-                <GoalRow />
-                <GoalRow />
-                <GoalRow />
+                    <View>
+                        <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Week. </Text>
+                    </View>
+                    <GoalRow />
+                    <GoalRow />
+                    <GoalRow />
 
-                <View>
-                    <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Month. </Text>
-                </View>
-                <GoalRow />
-                <GoalRow />
+                    <View>
+                        <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Month. </Text>
+                    </View>
+                    <GoalRow />
+                    <GoalRow />
+                </ScrollView>
             </View>
         );
     }
