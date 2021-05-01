@@ -2,8 +2,8 @@ import React from 'react';
 import {StatusBar, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from './Login.js';
-import Main from './Main.js';
+import Login from './Login';
+import Main from './Main';
 
 const Stack = createStackNavigator(
   //{headerMode: 'none'}
@@ -13,6 +13,7 @@ export default class App extends React.Component {
     render(){
       return (
         <View style={styles.container}>
+            <StatusBar style="auto" />
             <NavigationContainer>
               <Stack.Navigator initialRouteName={"Login"} 
               screenOptions = {{headerShown: false}}>
@@ -26,7 +27,6 @@ export default class App extends React.Component {
                 />
               </Stack.Navigator>
             </NavigationContainer>
-            <StatusBar style="auto" />
         </View>
       );
     }

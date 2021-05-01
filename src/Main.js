@@ -18,13 +18,13 @@ export default class Main extends React.Component{
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
 
-        if (route.name === 'Profile') {
-          iconName = 'person';
-        } else if (route.name === 'Add Goal') {
-          iconName = 'edit';
-        } else if (route.name === 'Home') {
-          iconName = 'house';
-        }
+            if (route.name === 'Profile') {
+              iconName = 'person';
+            } else if (route.name === 'Add Goal') {
+              iconName = 'edit';
+            } else if (route.name === 'Home') {
+              iconName = 'house';
+            }
 
         return <Icon name={iconName} iconStyle={{ color: '#B8CFF2' }} />
       },

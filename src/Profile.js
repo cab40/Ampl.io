@@ -43,6 +43,8 @@ export default class Profile extends React.Component {
     const chartConfig = {
       backgroundColor: '#1cc910',
       backgroundGradientFrom: "#ffffff",
+      backgroundGradientFromOpacity: 1,
+      backgroundGradientToOpacity: 1,
       backgroundGradientTo: "#ffffff",
       //color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
       color: (opacity = 1) => {return this.state.selectedIndex == 1 ? `rgba(0, 0, 0, ${opacity})` : `rgba(124, 235, 217, ${opacity})`},
@@ -152,7 +154,7 @@ const styles = StyleSheet.create({
   graph : {
     alignSelf: 'stretch',
     borderColor: 'blue',
-    borderWidth: 1,
+    //borderWidth: 1,
     padding: 0,
     marginLeft: -30
   },
@@ -160,6 +162,6 @@ const styles = StyleSheet.create({
     padding: 0,
     alignSelf : 'center',
     borderColor: 'blue',
-    borderWidth: 1,
+    //borderWidth: 1,
   }
 });
