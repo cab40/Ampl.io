@@ -4,7 +4,7 @@ import { Button } from 'react-native-elements';
 import Main from './Main.js';
 import LinearGradient from 'react-native-linear-gradient';
 
-export default class Login extends Component() {
+export default class Login extends React.Component {
   state = {};
   
   render() {
