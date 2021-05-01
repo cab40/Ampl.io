@@ -14,14 +14,13 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
             <NavigationContainer>
-              <Stack.Navigator screenOptions = {{headerShown: false}}>
+              <Stack.Navigator initialRouteName={"Login"} screenOptions = {{headerShown: false}}>
                 <Stack.Screen
                   name="Login"
                   component={Login}
                 />
               </Stack.Navigator>
             </NavigationContainer>
-            <Text>Hi</Text>
             <StatusBar style="auto" />
         </View>
       );
@@ -31,8 +30,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
 });
