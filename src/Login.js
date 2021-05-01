@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { SafeAreaView, TextInput, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
-import Main from './Main.js';
 import LinearGradient from 'react-native-linear-gradient';
 
 export default class Login extends React.Component {

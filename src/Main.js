@@ -27,7 +27,8 @@ export default function Main() {
       },
     })}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Add Goal" component={AddGoal} /><Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Add Goal" component={AddGoal} />
+      <Tab.Screen name="Profile" component={() => <Profile />} />
     </Tab.Navigator>
   );
 }
