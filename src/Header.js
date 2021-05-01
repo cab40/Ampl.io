@@ -11,7 +11,7 @@ export default class Login extends React.Component {
         <Image style = {styles.picture} source = {require('../assets/hehe.jpeg')}/>
 
         <View>
-          <Icon onPress = {() => console.log("chat")} type = 'font-awesome' name = 'commenting' 
+          <Icon onPress = {() => {console.log("chat"); this.props.navigation.navigate('ChatInbox')}} type = 'font-awesome' name = 'commenting' 
           color = '#B8CFF2' size = {30} />
             <Badge
             status="success"

@@ -97,7 +97,7 @@ export default class ChatInbox extends React.Component {
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <BackArrow />
+                    <BackArrow onPress = {() => this.props.navigation.goBack()} />
                     <Text style={{marginLeft: 20, color:"#000000", fontSize:30, fontWeight: "600"}}>Chat Inbox.</Text>
                 </View>
 

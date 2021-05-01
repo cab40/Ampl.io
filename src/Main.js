@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 export default class Main extends React.Component{
   render() {return (
     <View style = {styles.container}>
-      <Header/>
+    <Header navigation = {this.props.navigation}/>
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
