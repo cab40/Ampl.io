@@ -36,6 +36,7 @@ export default class Login extends React.Component {
             start: { x: 0, y: 0 },
             end: { x: 0, y: 1 },
           }}
+          onPress = {() => this.props.navigation.navigate('Main')}
         />
       </View>
     )
