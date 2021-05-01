@@ -4,29 +4,28 @@ import { SafeAreaView, TextInput, StyleSheet, Text, View, Image, Picker } from '
 import { Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
+import RNPickerSelect from 'react-native-picker-select';
 
 const width_proportion80 = '80%';
 const width_proportion100 = '100%';
 
-export default class Login extends React.Component {
+export default class FriendGoals extends React.Component {
   state = {
-      frequency: 'Once',
-      category: 'Education'
+      frequency: 'Select an item',
+      category: 'Select an item'
   };
 
-
   render() {
-
     return (
       <View style={styles.container} >
-        <Button 
+        {/* <Button style = {{flex: 1}}
             icon = { <Icon name = 'chevron-left'
                 size={30}
                 color= '#6B6565'/>
             }
             buttonStyle={styles.backButton}
-            onPress = {() => this.props.navigation.navigate(Main)}
-        />
+            onPress = {() => this.props.navigation.goBack()}
+        /> */}
         <Text style = {styles.title}> Set Goal. </Text>
 
         <SafeAreaView>
@@ -37,32 +36,41 @@ export default class Login extends React.Component {
                 placeholder="Name of goal"
                 keyboardType="numeric"
             />
+            
             <Text style={styles.subTitle}>Frequency</Text>
-
-            <Picker
-                style = {[styles.pickerStyle]}
-                selectedValue = {this.state.frequency}
-                onValueChange = {(itemValue, itemPosition) =>
-                    this.setState({frequency: itemValue})}
-                >
-                <Picker.Item label = 'Once' value = 'Once' />
-                <Picker.Item label = 'Daily' value = 'Daily' />
-                <Picker.Item label = 'Weekly' value = 'Weekly' />
-                <Picker.Item label = 'Monthly' value = 'Monthly' />
-            </Picker>
+            
+            <View style = {styles.input}>
+            <RNPickerSelect
+                onValueChange = {(itemValue) =>
+                  this.setState({frequency: itemValue})}
+                value = {this.state.frequency}
+                style = {pickerSelectStyles}
+                items={[
+                  { label: `Once`, value: 'Once' },
+                  { label: `Daily`, value: 'Daily' },
+                  { label: `Weekly`, value: 'Weekly' },
+                  { label: `Monthly`, value: 'Monthly' },
+                ]}
+              />
+              </View>
 
             <Text style={styles.subTitle}>Category</Text>
-            <Picker
-                style = {[styles.pickerStyle]}
-                selectedValue = {this.state.category}
-                onValueChange = {(itemValue, itemPosition) =>
-                    this.setState({category: itemValue})}
-                >
-                <Picker.Item label = 'Education' value = 'Education' />
-                <Picker.Item label = 'Exercise' value = 'Exercise' />
-                <Picker.Item label = 'Health' value = 'Health' />
-                <Picker.Item label = 'Lifestyle' value = 'Lifestyle' />
-            </Picker>
+
+            <View style = {styles.input}>
+            <RNPickerSelect
+                onValueChange = {(itemValue) =>
+                  this.setState({category: itemValue})}
+                value = {this.state.category}
+                style = {pickerSelectStyles}
+                items={[
+                  { label: `Education`, value: 'Education' },
+                  { label: `Exercise`, value: 'Exercise' },
+                  { label: `Health`, value: 'Health' },
+                  { label: `Lifestyle`, value: 'Lifestyle' },
+                ]}
+              />
+              </View>
+
             <Text style={styles.subTitle}>Friend code</Text>
             < View style={styles.row}>
                 <TextInput
@@ -114,13 +122,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: width_proportion100,
     backgroundColor: '#fff',
-    paddingTop: 100,
     paddingHorizontal: 20,
   },
   title : {
     fontFamily: 'Avenir',
     fontSize: 30,
-    marginBottom: 30,
+    marginTop: 20,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -134,7 +141,7 @@ const styles = StyleSheet.create({
   input : {
     height: 40,
     width: width_proportion100,
-    padding: 12,
+    padding: 8,
     borderColor: '#E1E8FC',
     borderWidth: 3,
     borderStyle: 'solid',
@@ -185,4 +192,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     opacity: 1
   }
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 15,
+    color: 'gray',
+    //borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'blue',
+  },
 });
