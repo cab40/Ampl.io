@@ -5,12 +5,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import Profile from './Profile.js';
 import AddGoal from './AddGoal.js';
 import Home from './Home.js';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
+import Header from './Header.js';
 
 const Tab = createBottomTabNavigator();
 
-export default function Main() {
-  return (
+export default class Main extends React.Component{
+  render() {return (
+    <View style = {styles.container}>
+      <Header/>
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
@@ -28,16 +31,15 @@ export default function Main() {
     })}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Add Goal" component={AddGoal} />
-      <Tab.Screen name="Profile" component={() => <Profile />} />
+      <Tab.Screen name="Profile" children={() => <Profile />} />
     </Tab.Navigator>
-  );
+    </View>
+  )}
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

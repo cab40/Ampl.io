@@ -14,7 +14,8 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
             <NavigationContainer>
-              <Stack.Navigator initialRouteName={"Login"} screenOptions = {{headerShown: false}}>
+              <Stack.Navigator initialRouteName={"Login"} 
+              screenOptions = {{headerShown: false}}>
                 <Stack.Screen
                   name="Login"
                   component={Login}
