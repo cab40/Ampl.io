@@ -7,6 +7,7 @@ import BackArrow from '../assets/svgs/BackArrow';
 import Search from '../assets/svgs/Search';
 import SendIcon from '../assets/svgs/SendMessage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const icons = {
     "Health": <Health />,
@@ -21,20 +22,26 @@ export default class Chat extends React.Component{
         super(props);
         this.state = {
             username: "",
-            messages: [],
+            Messages: [],
             category: "",
             name: "",
             members: [],
             headerHeight: 0,
             footerHeight: 0,
-            currentMessage: ""
+            currentMessage: "",
+            id: ""
         }
 
         this.scrollViewRef = React.createRef();
+        this._interval = () => {};
     }
 
     async componentDidMount(){
         let username = await AsyncStorage.getItem('username');
+
+        this._interval = setInterval(() => {
+            axios.get('http://localhost:5000/getMessages', {params: {'ChatId': this.state.id, 'username': this.state.username}}).then((response) => {this.setState({Messages: response.data.messages})});
+        }, 3000);
 
         if(this.scrollViewRef?.current){
             this.scrollViewRef.current.scrollToEnd({animated: false});
@@ -46,9 +53,16 @@ export default class Chat extends React.Component{
         });
     }
 
+    componentWillUnmount(){
+        clearInterval(this._interval);
+    }
+
     sendMessage = () => {
-        let newMessageList = this.state.messages;
-        newMessageList.push({sender: this.state.username, message: this.state.currentMessage, id: Math.random().toString(36).substring(7) });
+        let newMessageList = this.state.Messages;
+        let id = Math.random().toString(36).substring(4);
+        newMessageList.push({sender: this.state.username, message: this.state.currentMessage, id: id});
+
+        axios.post('http://localhost:5000/sendMessage', {'ChatId': this.state.id, 'message': this.state.currentMessage, 'username': this.state.username, 'id': id});
 
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         this.setState({
@@ -59,7 +73,7 @@ export default class Chat extends React.Component{
 
     renderMessages = () => {
         let lastSender = "";
-        return this.state.messages.map(message => {
+        return this.state.Messages.map(message => {
             let additional = [];
             if(message.sender != lastSender){
                 lastSender = message.sender;

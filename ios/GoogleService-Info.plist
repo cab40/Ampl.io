@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>941050357380-8bqb2pmsenbfb5kq4ish7b5sio20k9s0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.941050357380-8bqb2pmsenbfb5kq4ish7b5sio20k9s0</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAY4KJtdr3CLfhmBgw3D-9Ai_Y0Tn4AfC4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>941050357380</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.name.ruhacks</string>
+	<key>PROJECT_ID</key>
+	<string>ruhacks-9ee0f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ruhacks-9ee0f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:941050357380:ios:0f33e1ee2cae179233c4d1</string>
+</dict>
+</plist>
