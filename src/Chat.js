@@ -44,8 +44,12 @@ export default class Chat extends React.Component{
         }, 3000);
 
         if(this.scrollViewRef?.current){
-            this.scrollViewRef.current.scrollToEnd({animated: false});
+            this.scrollViewRef.current.scrollToEnd({animated: true});
         }
+
+        setTimeout(() => {
+            this.scrollViewRef.current.scrollToEnd({animated: true});
+        }, 100);
 
         this.setState({
             username,
@@ -68,7 +72,11 @@ export default class Chat extends React.Component{
         this.setState({
             currentMessage: "",
             messages: newMessageList
-        }, () => {this.scrollViewRef.current.scrollToEnd({animated: true})});
+        }, () => {
+            setTimeout(() => {
+                this.scrollViewRef.current.scrollToEnd({animated: true});
+            }, 100);
+        });
     }
 
     renderMessages = () => {
@@ -122,7 +130,7 @@ export default class Chat extends React.Component{
                         <Text style={{fontSize: 10, color:"#6B6565"}} numberOfLines={1}>
                             with {this.state.members.map((member, idx) => {
                                 if(member != this.state.username){
-                                    if(idx == 0){
+                                    if(idx == 0 || (this.state.members.length > 1 && idx == 1 && this.state.members[idx-1] == this.state.username)){
                                         return member;
                                     }
                                     if(idx == this.state.members.length-1 || (idx == this.state.members.length-2 && this.state.members[idx-2] == this.state.username)){

@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import {Logo as AppLogo} from '../assets/svgs/Logo';
+import axios from 'axios';
 
 export default class Login extends React.Component {
     constructor(props){
@@ -15,8 +16,12 @@ export default class Login extends React.Component {
     }
 
     login = async () => {
+        axios.get('http://localhost:5000/getFriendCode', {params: {username: this.state.username}}).then( async (response) => {
+            console.log(response.data.FriendCode);
+            await AsyncStorage.setItem('FriendCode', response.data.FriendCode);
+        });
+
         await AsyncStorage.setItem('username', this.state.username);
-        //console.log(this.state.username);
         this.props.navigation.navigate('Main');
     }
 

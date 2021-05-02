@@ -114,14 +114,20 @@ class ChatCard extends React.Component {
     }
 
     render(){
-        let lastMessage = this.props.data.Messages[this.props.data.Messages.length-1];
+        let numMessages = this.props.data.Messages.length;
+        let lastMessage = {};
+        if(numMessages != 0){
+            lastMessage = this.props.data.Messages[this.props.data.Messages.length-1];
+        }
 
         return (
             <TouchableOpacity style={CardStyle.mainCard} onPress={this.goToMessage}> 
                 {this.icon[this.props.data.category]}
                 <View style={CardStyle.textSection} >
                     <Text numberofLines={1} style={CardStyle.textHeader}>{this.props.data.name}</Text>
-                    <Text numberOfLines={1} style={this.state.read ? CardStyle.readChat : CardStyle.unreadChat}>{lastMessage.sender == this.props.username ? "You" : lastMessage.sender}: {lastMessage.message}</Text>
+                    {numMessages == 0 ? <View /> :
+                        <Text numberOfLines={1} style={this.state.read ? CardStyle.readChat : CardStyle.unreadChat}>{lastMessage.sender == this.props.username ? "You" : lastMessage.sender}: {lastMessage.message}</Text>
+                    }
                 </View>
                 <View style={CardStyle.statusSection}>
                     {this.state.read ? null :
