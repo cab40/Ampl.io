@@ -22,7 +22,7 @@ export default class FriendGoals extends React.Component {
         <>
         <Header />
         <View style={styles.header}>
-            <BackArrow onPress = {() => this.props.navigation.goBack()} />
+            <BackArrow onPress = {() => this.props.navigation.goBack(Main)} />
             <Text style = {styles.title}> Set Goal. </Text>
         </View>
         <View style={styles.container} >
@@ -97,7 +97,7 @@ export default class FriendGoals extends React.Component {
                 {/* <View style={styles.row}>
                     INSERT THE PROFILE PICS HERE
                     <Image style={styles.img}
-                    source={}
+                    //source={}
                     />
                 </View> */}
             </SafeAreaView>
@@ -156,8 +156,9 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 180,
-    borderRadius: 20,
-    marginTop: 30,
+    height: 60,
+    borderRadius: 40,
+    marginTop: 80,
     marginLeft: 95,
     alignItems: 'center'
   },
