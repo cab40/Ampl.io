@@ -34,7 +34,7 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    paddingLeft: 30,
+    paddingLeft: 15,
     paddingRight: 30,
     backgroundColor: '#fff',
     alignItems: 'center',
