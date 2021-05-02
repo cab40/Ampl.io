@@ -1,18 +1,24 @@
 import React, { Component, useState } from 'react';
 import Main from './Main';
-import { SafeAreaView, TextInput, StyleSheet, Text, View, Image, Picker } from 'react-native';
+import { TouchableOpacity, SafeAreaView, TextInput, StyleSheet, Text, Dimensions, View, Image, Picker } from 'react-native';
 import { Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
 
 const width_proportion80 = '80%';
 const width_proportion100 = '100%';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default class Login extends React.Component {
-  state = {
-      frequency: 'Once',
-      category: 'Education'
-  };
+
+    constructor(props){
+        super(props);
+        this.state = {
+            frequency: 'Once',
+            category: 'Education'
+        }
+    }
 
 
   render() {
@@ -25,7 +31,7 @@ export default class Login extends React.Component {
                 color= '#6B6565'/>
             }
             buttonStyle={styles.backButton}
-            onPress = {() => this.props.navigation.navigate(Main)}
+            onPress = {() => this.props.navigation.goBack()}
         />
         <Text style = {styles.title}> Set Goal. </Text>
 
@@ -95,6 +101,7 @@ export default class Login extends React.Component {
                 />
             </View> */}
         </SafeAreaView>
+        <PickerThingy/>
 
         <Button title="Finish" buttonStyle={styles.button}
           ViewComponent={LinearGradient}
@@ -107,6 +114,26 @@ export default class Login extends React.Component {
       </View>
     )
   }
+}
+
+class PickerThingy extends React.Component{
+    render(){
+        return(
+            <View style={{height:windowHeight, width:windowWidth, zIndex: 1, position: "absolute"}}>
+                <TouchableOpacity activeOpacity={1} style={{flexGrow: 1}}/>
+                <Picker
+                    selectedValue = {"Education"}
+                    onValueChange = {(itemValue, itemPosition) =>
+                        this.setState({category: itemValue})}
+                    >
+                    <Picker.Item label = 'Education' value = 'Education' />
+                    <Picker.Item label = 'Exercise' value = 'Exercise' />
+                    <Picker.Item label = 'Health' value = 'Health' />
+                    <Picker.Item label = 'Lifestyle' value = 'Lifestyle' />
+                </Picker>
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
