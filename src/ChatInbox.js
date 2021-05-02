@@ -5,7 +5,9 @@ import Education from '../assets/svgs/Education';
 import Health from '../assets/svgs/Health';
 import BackArrow from '../assets/svgs/BackArrow';
 import Search from '../assets/svgs/Search';
-import AsyncStorage from '@react-native-async-storage/async-storage' 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
 
 export default class ChatInbox extends React.Component {
     constructor(props){
@@ -16,6 +18,8 @@ export default class ChatInbox extends React.Component {
             allChats: [],
             username: ""
         }
+        this.userMessage = null;
+        this._interval = () => {};
     }
 
     changeSearch = (e) => {
@@ -40,81 +44,25 @@ export default class ChatInbox extends React.Component {
 
     async componentDidMount(){
         let username = await AsyncStorage.getItem('username');
-        let chats = [
-            {
-                messages: [
-                    {sender: "Alvin", id:"123", message: "I love olaf"},
-                    {sender: "Olaf", id:"323", message: "I love you too Alvin!!"},
-                    {sender: "Alvin", id:"523", message: "Do you want to go build a snowman?? Its nice and cold outside"},
-                    {sender: "Alvin", id:"623", message: "Or we can go make some snow angels :)"},
-                    {sender: "Raymond", id:"723", message: "Isnt is the summer? How are you going to build a snowman"},
-                ],
-                read: false,
-                id: "141afs",
-                name: "Watch an episode of frozen",
-                category: "Health",
-                members: ["Alvin", "Olaf", "Shrek", "Anna", "Raymond"]
-            },
-            {
-                messages: [
-                    {sender: "Raymond", id: "123", message: "Alvin, go do your math!"},
-                    {sender: "Alvin", id: "2", message: "Oh right! Yes of course! I totally forgot"},
-                    {sender: "Alvin", id: "3", message: "Im doing it right now"},
-                    {sender: "Catherine", id: "4", message: "You better be."},
-                    {sender: "Jocelyn", id: "5", message: "Smh Alvin"}
-                ],
-                read: true,
-                id: "asdf142",
-                name: "Daily Math Exercises",
-                category: "Education",
-                members: ["Alvin", "Raymond", "Catherine", "Jocelyn"]
-            },
-            {
-                messages: [
-                    {sender: "Alvin", id:"3", message: "Jocelyn, train your model"},
-                    {sender: "Jocelyn", id:"2", message: "I don't know how..."},
-                    {sender: "Jocelyn", id:"5", message: "Can you help me?"},
-                    {sender: "Alvin", id:"4", message: "Loser"},
-                    {sender: "Jocelyn", id:"7", message: "Shut up, Alvin"},
-                    {sender: "Raymond", id:"6", message: ":o"},
-                ],
-                read: false,
-                id: "a21jad",
-                name: "Train Tensorflow Model",
-                category: "Education",
-                members: ["Alvin", "Raymond", "Catherine", "Jocelyn"]
-            },
-            {
-                messages: [{sender: "Olaf", message: "Build a snowman, alvin!"}],
-                read: true,
-                id: "12ks0431",
-                name: "Daily Snowman Building",
-                category: "Exercise",
-                members: ["Alvin", "Olaf", "Anna", "Christof"]
-            },
-            {
-                messages: [{sender: "Catherine", message: "Raymond, walk Felix"}],
-                read: true,
-                id: "asdf191a",
-                name: "Weekly Dog Walking",
-                category: "Exercise",
-                members: ["Alvin", "Catherine", "Jocelyn", "Raymond"]
-            },
-            {
-                messages: [{sender: "Alvin", message: "Go code, Raymond!!"}],
-                read: true,
-                id: "asf122jsd",
-                name: "Daily Leetcode",
-                category: "Education",
-                members: ["Alvin", "Raymond", "Jocelyn", "Catherine"]
-            },
-        ];
+        let chats = await axios.get('http://localhost:5000/userMessages', {params: {username: username}}).then((response) => {
+            return response.data.messages;
+        });
+
+        this._interval = setInterval(() => {
+            axios.get('http://localhost:5000/userMessages', {params: {username: username}}).then((response) => {
+                this.setState({allChats: response.data.messages}, () => {this.changeSearch(this.state.searchQuery)});
+            });
+        }, 6000)
 
         this.setState({
             searchResults: chats,
             allChats: chats,
             username
         });
+    }
+
+    componentWillUnmount(){
+        clearInterval(this._interval);
     }
 
     render(){
@@ -166,7 +114,7 @@ class ChatCard extends React.Component {
     }
 
     render(){
-        let lastMessage = this.props.data.messages[this.props.data.messages.length-1];
+        let lastMessage = this.props.data.Messages[this.props.data.Messages.length-1];
 
         return (
             <TouchableOpacity style={CardStyle.mainCard} onPress={this.goToMessage}> 
