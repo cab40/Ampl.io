@@ -71,6 +71,7 @@ export default class FriendGoals extends React.Component {
             </SafeAreaView>
 
             <Button title="Finish" buttonStyle={styles.button}
+            titleStyle={{fontFamily:'Avenir', fontWeight:'bold', fontSize:22}}
             ViewComponent={LinearGradient}
             linearGradientProps={{
                 colors: ['#C1E7E1', '#AEE1DA'],

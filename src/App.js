@@ -19,7 +19,11 @@ export default class App extends React.Component {
         <View style={styles.container}>
             <StatusBar style="auto" />
             <NavigationContainer>
+<<<<<<< HEAD
               <Stack.Navigator initialRouteName={"Main"} screenOptions = {{headerShown: false}}>
+=======
+              <Stack.Navigator initialRouteName={"Login"} screenOptions = {{headerShown: false}}>
+>>>>>>> 4293c926a54d2c328f9adcfbb89e534e3e518ddd
                 <Stack.Screen
                   name="Login"
                   component={Login}
