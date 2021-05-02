@@ -23,108 +23,104 @@ export default class Login extends React.Component {
     }
   render() {
     return (
-      <View style={styles.container} >
-        <View style = {{flexDirection: 'row', marginRight: 110, justifyContent: 'space-between', marginTop: 50}}>
-        <Button
-            icon = { <Icon name = 'chevron-left'
-                size={30}
-                color= '#6B6565'/>
-            }
-            buttonStyle={styles.backButton}
-            onPress = {() => this.props.navigation.goBack()}
-        />
-        <Text style = {styles.title}> Set Goal. </Text>
+        <>
+        <Header />
+        <View style={styles.header}>
+            <BackArrow onPress = {() => this.props.navigation.goBack()} />
+            <Text style = {styles.title}> Set Goal. </Text>
         </View>
 
-        <SafeAreaView>
-            <Text style={styles.subTitle}>Goal name</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={() => console.log("pls work")}
-                placeholder="Name of goal"
-                keyboardType="numeric"
-            />
-            
-            <Text style={styles.subTitle}>Frequency</Text>
-            
-            <View style = {styles.input}>
-            <RNPickerSelect
-                onValueChange = {(itemValue) =>
-                  this.setState({frequency: itemValue})}
-                value = {this.state.frequency}
-                style = {pickerSelectStyles}
-                items={[
-                  { label: `Once`, value: 'Once' },
-                  { label: `Daily`, value: 'Daily' },
-                  { label: `Weekly`, value: 'Weekly' },
-                  { label: `Monthly`, value: 'Monthly' },
-                ]}
-              />
-              </View>
-
-            <Text style={styles.subTitle}>Category</Text>
-
-            <View style = {styles.input}>
-            <RNPickerSelect
-                onValueChange = {(itemValue) =>
-                  this.setState({category: itemValue})}
-                value = {this.state.category}
-                style = {pickerSelectStyles}
-                items={[
-                  { label: `Education`, value: 'Education' },
-                  { label: `Exercise`, value: 'Exercise' },
-                  { label: `Health`, value: 'Health' },
-                  { label: `Lifestyle`, value: 'Lifestyle' },
-                ]}
-              />
-              </View>
-
-            <Text style={styles.subTitle}>Friend code</Text>
-
-                < View style={styles.row}>
-                    <TextInput
-                        style={[styles.input, styles.addFriend]}
-                        onChangeText={() => console.log("pls work")}
-                        placeholder="Enter friend code"
-                        keyboardType="numeric"
-                    />
-
-                    <Button 
-                        onPress={this.handleClick}
-                        icon={
-                            <Icon
-                            name="plus"
-                            size={20}
-                            color="white"
-                            />}
-                        buttonStyle={[styles.button, styles.addButton]}
-                        ViewComponent={LinearGradient}
-                        linearGradientProps={{
-                            colors: ['#C1E7E1', '#AEE1DA'],
-                            start: { x: 0, y: 0 },
-                            end: { x: 0, y: 1 },
-                        }}
-                    />
+        <View style={styles.container} >
+            <SafeAreaView>
+                <Text style={styles.subTitle}>Goal name</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={() => console.log("pls work")}
+                    placeholder="Name of goal"
+                    keyboardType="numeric"
+                />
+                
+                <Text style={styles.subTitle}>Frequency</Text>
+                
+                <View style = {styles.input}>
+                <RNPickerSelect
+                    onValueChange = {(itemValue) =>
+                    this.setState({frequency: itemValue})}
+                    value = {this.state.frequency}
+                    style = {pickerSelectStyles}
+                    items={[
+                    { label: `Once`, value: 'Once' },
+                    { label: `Daily`, value: 'Daily' },
+                    { label: `Weekly`, value: 'Weekly' },
+                    { label: `Monthly`, value: 'Monthly' },
+                    ]}
+                />
                 </View>
 
-                {/* <View style={styles.row}>
-                    INSERT THE PROFILE PICS HERE
-                    <Image style={styles.img}
-                    //source={}
-                    />
-                </View> */}
+                <Text style={styles.subTitle}>Category</Text>
 
-            <Button title="Finish" buttonStyle={styles.button}
-            titleStyle={{fontFamily:'Avenir', fontWeight:'bold', fontSize:22}}
-            ViewComponent={LinearGradient}
-            linearGradientProps={{
-                colors: ['#C1E7E1', '#AEE1DA'],
-                start: { x: 0, y: 0 },
-                end: { x: 0, y: 1 },
-            }}
-            />
-        </SafeAreaView>
+                <View style = {styles.input}>
+                <RNPickerSelect
+                    onValueChange = {(itemValue) =>
+                    this.setState({category: itemValue})}
+                    value = {this.state.category}
+                    style = {pickerSelectStyles}
+                    items={[
+                    { label: `Education`, value: 'Education' },
+                    { label: `Exercise`, value: 'Exercise' },
+                    { label: `Health`, value: 'Health' },
+                    { label: `Lifestyle`, value: 'Lifestyle' },
+                    ]}
+                />
+                </View>
+
+                <Text style={styles.subTitle}>Friend code</Text>
+
+                    < View style={styles.row}>
+                        <TextInput
+                            style={[styles.input, styles.addFriend]}
+                            onChangeText={() => console.log("pls work")}
+                            placeholder="Enter friend code"
+                            keyboardType="numeric"
+                        />
+
+                        <Button 
+                            onPress={this.handleClick}
+                            icon={
+                                <Icon
+                                name="plus"
+                                size={20}
+                                color="white"
+                                />}
+                            buttonStyle={[styles.button, styles.addButton]}
+                            ViewComponent={LinearGradient}
+                            linearGradientProps={{
+                                colors: ['#C1E7E1', '#AEE1DA'],
+                                start: { x: 0, y: 0 },
+                                end: { x: 0, y: 1 },
+                            }}
+                        />
+                    </View>
+
+                    {/* <View style={styles.row}>
+                        INSERT THE PROFILE PICS HERE
+                        <Image style={styles.img}
+                        //source={}
+                        />
+                    </View> */}
+
+                <Button title="Finish" buttonStyle={styles.button}
+                titleStyle={{fontFamily:'Avenir', fontWeight:'bold', fontSize:22}}
+                ViewComponent={LinearGradient}
+                linearGradientProps={{
+                    colors: ['#C1E7E1', '#AEE1DA'],
+                    start: { x: 0, y: 0 },
+                    end: { x: 0, y: 1 },
+                }}
+                />
+            </SafeAreaView>
         </View>
+        </>
     )
   }
 }
@@ -135,7 +131,6 @@ const styles = StyleSheet.create({
     width: width_proportion100,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    marginTop: 50
   },
   header : {
     flexDirection:"row",
