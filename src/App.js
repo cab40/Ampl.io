@@ -7,6 +7,7 @@ import Main from './Main';
 import ChatInbox from './ChatInbox';
 import Chat from './Chat';
 import FriendGoals from './FriendGoals';
+import Matchgoal from './Matchgoal';
 import SetGoal from './SetGoal';
 
 const Stack = createStackNavigator(
@@ -27,6 +28,10 @@ export default class App extends React.Component {
                 <Stack.Screen
                   name="FriendGoals"
                   component={FriendGoals}
+                />
+                <Stack.Screen
+                  name="Matchgoal"
+                  component={Matchgoal}
                 />
                 <Stack.Screen
                   name="Main"

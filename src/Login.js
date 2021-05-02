@@ -3,6 +3,7 @@ import { SafeAreaView, TextInput, StyleSheet, Text, View, TouchableOpacity } fro
 import AsyncStorage from '@react-native-async-storage/async-storage' 
 import { Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
+import {Logo as AppLogo} from '../assets/svgs/Logo';
 
 export default class Login extends React.Component {
     constructor(props){
@@ -21,7 +22,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container} >
-        <Text style = {styles.title}> habit.co </Text>
+          <AppLogo/>
 
         <SafeAreaView>
           <TextInput
