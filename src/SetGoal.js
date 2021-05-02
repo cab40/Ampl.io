@@ -9,14 +9,14 @@ export default class SetGoal extends React.Component{
     <View style = {styles.container}>
       <Text style = {styles.title}> Set Goal. </Text>
 
-      <TouchableOpacity style = {{backgroundColor: '#b8cff2', height: 200, width: 300, justifyContent: 'center', alignItems: 'center', borderRadius: 20}} onPress = {() => {console.log("hey"); this.props.navigation.navigate('FriendGoals')}}>
+      <TouchableOpacity style = {styles.box1} onPress = {() => {console.log("hey"); this.props.navigation.navigate('FriendGoals')}}>
         <Friends />
-        <Text style = {{color: 'white', fontSize: 20, marginTop: 20}}> Set with Friends</Text>
+        <Text style = {styles.textStyle}> Set with Friends</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style = {{marginTop: 30, backgroundColor: '#c1e7e1', height: 200, width: 300, justifyContent: 'center', alignItems: 'center', borderRadius: 20}} onPress = {() => {console.log("hey"); this.props.navigation.navigate('Matchgoal')}}>
+      <TouchableOpacity style = {styles.box2} onPress = {() => {console.log("hey"); this.props.navigation.navigate('Matchgoal')}}>
         <FindFriend />
-        <Text style = {{color: 'white', fontSize: 20, marginTop: 20}}> Match with Others</Text>
+        <Text style = {styles.textStyle}> Match with Others</Text>
       </TouchableOpacity>
     </View>
   )}
@@ -39,4 +39,44 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  box1 : {
+    backgroundColor: '#b8cff2',
+    height: 200, 
+    width: 300, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    shadowColor: "#000",
+    borderRadius: 20,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  box2 : {
+    backgroundColor: '#c1e7e1',
+    height: 200, 
+    width: 300, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    shadowColor: "#000",
+    borderRadius: 20,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    marginTop: 30,
+    elevation: 5,
+  },
+  textStyle : {
+    color: 'white', 
+    fontSize: 23, 
+    marginTop: 20, 
+    fontFamily: 'Avenir',
+  }
 });
