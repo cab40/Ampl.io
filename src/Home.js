@@ -10,26 +10,27 @@ import CheckIcon from '../assets/svgs/CheckIcon';
 export default class Home extends React.Component{
     render(){
         return (
-            <ScrollView style = {styles.container}>
+            <ScrollView style = {styles.container} showsVerticalScrollIndicator={false}>
                 <View style = {{height: 20}}/>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <Text style={{fontSize: 30, fontWeight: "600"}}> Today. </Text>
-                    <GoalRow navigation = {this.props.navigation} />
-                    <GoalRow navigation = {this.props.navigation}/>
+                <Text style={{fontSize: 30, fontWeight: "600"}}> Today. </Text>
+                <GoalRow />
+                <GoalRow />
 
-                    <View>
-                        <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Week. </Text>
-                    </View>
-                    <GoalRow navigation = {this.props.navigation}/>
-                    <GoalRow navigation = {this.props.navigation}/>
-                    <GoalRow navigation = {this.props.navigation}/>
+                <View>
+                    <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Week. </Text>
+                </View>
+                <GoalRow />
+                <GoalRow />
+                <GoalRow />
 
-                    <View>
-                        <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Month. </Text>
-                    </View>
-                    <GoalRow navigation = {this.props.navigation}/>
-                    <GoalRow navigation = {this.props.navigation}/>
-                </ScrollView>
+                <View>
+                    <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Month. </Text>
+                </View>
+                <GoalRow />
+                <GoalRow />
+                <GoalRow />
+                <GoalRow />
+                <View style = {{height: 10}}/>
             </ScrollView>
         );
     }
@@ -155,6 +156,7 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 20,
     paddingRight: 20,
+    paddingBottom:10,
     flex: 1,
     backgroundColor: '#fff',
     padding: 0,

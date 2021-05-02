@@ -20,7 +20,7 @@ export default class Main extends React.Component{
 
             if (route.name === 'Profile') {
               iconName = 'person';
-            } else if (route.name === 'SetGoal') {
+            } else if (route.name === 'Set Goal') {
               iconName = 'edit';
             } else if (route.name === 'Home') {
               iconName = 'house';
@@ -29,8 +29,8 @@ export default class Main extends React.Component{
         return <Icon name={iconName} iconStyle={{ color: '#B8CFF2' }} />
       },
     })}>
-      <Tab.Screen name="Home" children = {()=> <Home navigation = {this.props.navigation}/>}/>
-      <Tab.Screen name="SetGoal" children={() => <SetGoal navigation = {this.props.navigation}/>} />
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Set Goal" component={SetGoal} />
       <Tab.Screen name="Profile" children={() => <Profile />} />
     </Tab.Navigator>
     </View>

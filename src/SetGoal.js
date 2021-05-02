@@ -25,13 +25,14 @@ export default class SetGoal extends React.Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    height: "100%",
+    backgroundColor: 'white',
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingBottom: 200,
   },
-  title : {
+  title: {
     fontFamily: 'Avenir',
     fontSize: 30,
     marginTop: 20,

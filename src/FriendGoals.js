@@ -24,7 +24,8 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container} >
-        <View style = {{flexDirection: 'row', marginRight: 110, justifyContent: 'space-between', marginTop: 50}}>
+        <View style={{height: 50}} />
+        <View style = {{backgroundColor:"white", flexDirection: 'row', marginRight: 110, justifyContent: 'space-between', marginTop: 50}}>
         <Button
             icon = { <Icon name = 'chevron-left'
                 size={30}
@@ -135,7 +136,6 @@ const styles = StyleSheet.create({
     width: width_proportion100,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    marginTop: 50
   },
   header : {
     flexDirection:"row",
