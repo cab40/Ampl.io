@@ -1,6 +1,5 @@
 import React, { Component, useState } from 'react';
-import Main from './Main';
-import { TouchableOpacity, SafeAreaView, TextInput, StyleSheet, Text, Dimensions, View, Image, Picker } from 'react-native';
+import { TouchableOpacity, SafeAreaView, TextInput, StyleSheet, Text, Dimensions, View, Image} from 'react-native';
 import { Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
@@ -24,57 +23,64 @@ export default class Login extends React.Component {
     }
   render() {
     return (
-        <>
-        <Header />
-        <View style={styles.header}>
-            <BackArrow onPress = {() => this.props.navigation.goBack(Main)} />
-            <Text style = {styles.title}> Set Goal. </Text>
+      <View style={styles.container} >
+        <View style = {{flexDirection: 'row', marginRight: 110, justifyContent: 'space-between', marginTop: 50}}>
+        <Button
+            icon = { <Icon name = 'chevron-left'
+                size={30}
+                color= '#6B6565'/>
+            }
+            buttonStyle={styles.backButton}
+            onPress = {() => this.props.navigation.goBack()}
+        />
+        <Text style = {styles.title}> Set Goal. </Text>
         </View>
-        <View style={styles.container} >
-            <SafeAreaView>
-                <Text style={styles.subTitle}>Goal name</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={() => console.log("pls work")}
-                    placeholder="Name of goal"
-                    keyboardType="numeric"
-                />
-                
-                <Text style={styles.subTitle}>Frequency</Text>
-                
-                <View style = {styles.input}>
-                <RNPickerSelect
-                    onValueChange = {(itemValue) =>
-                    this.setState({frequency: itemValue})}
-                    value = {this.state.frequency}
-                    style = {pickerSelectStyles}
-                    items={[
-                    { label: `Once`, value: 'Once' },
-                    { label: `Daily`, value: 'Daily' },
-                    { label: `Weekly`, value: 'Weekly' },
-                    { label: `Monthly`, value: 'Monthly' },
-                    ]}
-                />
-                </View>
 
-                <Text style={styles.subTitle}>Category</Text>
+        <SafeAreaView>
+            <Text style={styles.subTitle}>Goal name</Text>
+            <TextInput
+                style={styles.input}
+                onChangeText={() => console.log("pls work")}
+                placeholder="Name of goal"
+                keyboardType="numeric"
+            />
+            
+            <Text style={styles.subTitle}>Frequency</Text>
+            
+            <View style = {styles.input}>
+            <RNPickerSelect
+                onValueChange = {(itemValue) =>
+                  this.setState({frequency: itemValue})}
+                value = {this.state.frequency}
+                style = {pickerSelectStyles}
+                items={[
+                  { label: `Once`, value: 'Once' },
+                  { label: `Daily`, value: 'Daily' },
+                  { label: `Weekly`, value: 'Weekly' },
+                  { label: `Monthly`, value: 'Monthly' },
+                ]}
+              />
+              </View>
 
-                <View style = {styles.input}>
-                <RNPickerSelect
-                    onValueChange = {(itemValue) =>
-                    this.setState({category: itemValue})}
-                    value = {this.state.category}
-                    style = {pickerSelectStyles}
-                    items={[
-                    { label: `Education`, value: 'Education' },
-                    { label: `Exercise`, value: 'Exercise' },
-                    { label: `Health`, value: 'Health' },
-                    { label: `Lifestyle`, value: 'Lifestyle' },
-                    ]}
-                />
-                </View>
+            <Text style={styles.subTitle}>Category</Text>
 
-                <Text style={styles.subTitle}>Friend code</Text>
+            <View style = {styles.input}>
+            <RNPickerSelect
+                onValueChange = {(itemValue) =>
+                  this.setState({category: itemValue})}
+                value = {this.state.category}
+                style = {pickerSelectStyles}
+                items={[
+                  { label: `Education`, value: 'Education' },
+                  { label: `Exercise`, value: 'Exercise' },
+                  { label: `Health`, value: 'Health' },
+                  { label: `Lifestyle`, value: 'Lifestyle' },
+                ]}
+              />
+              </View>
+
+            <Text style={styles.subTitle}>Friend code</Text>
+
                 < View style={styles.row}>
                     <TextInput
                         style={[styles.input, styles.addFriend]}
@@ -82,6 +88,7 @@ export default class Login extends React.Component {
                         placeholder="Enter friend code"
                         keyboardType="numeric"
                     />
+
                     <Button 
                         onPress={this.handleClick}
                         icon={
@@ -99,15 +106,16 @@ export default class Login extends React.Component {
                         }}
                     />
                 </View>
+
                 {/* <View style={styles.row}>
                     INSERT THE PROFILE PICS HERE
                     <Image style={styles.img}
                     //source={}
                     />
                 </View> */}
-            </SafeAreaView>
 
             <Button title="Finish" buttonStyle={styles.button}
+            titleStyle={{fontFamily:'Avenir', fontWeight:'bold', fontSize:22}}
             ViewComponent={LinearGradient}
             linearGradientProps={{
                 colors: ['#C1E7E1', '#AEE1DA'],
@@ -115,8 +123,8 @@ export default class Login extends React.Component {
                 end: { x: 0, y: 1 },
             }}
             />
+        </SafeAreaView>
         </View>
-        </>
     )
   }
 }
@@ -127,6 +135,7 @@ const styles = StyleSheet.create({
     width: width_proportion100,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
+    marginTop: 50
   },
   header : {
     flexDirection:"row",
