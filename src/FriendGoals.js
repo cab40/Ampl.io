@@ -22,17 +22,20 @@ export default class Login extends React.Component {
     }
   }
 
-  sendGoal = () => {
-    console.log("hey");
-    console.log(AsyncStorage.getItem('username'));
-    axios.post(`http://localhost:5000/createGoal/${AsyncStorage.getItem('username')}`, {
+  sendGoal = async () => {
+    let username = await AsyncStorage.getItem('username');
+    axios.post(`http://localhost:5000/createGoal/${username}`, {
       name : this.state.name, 
       frequency : this.state.frequency,
-      category : this.state.category
-    })
-    .catch((e) => {
+      category : this.state.category,
+      friends : []
+    }).then(() => {
+      this.props.navigation.navigate('Main');
+    }).catch((e) => {
       console.log("bad");
       console.log(e.message);
+
+      this.props.navigation.navigate('Main');
     });
   }
 
@@ -55,7 +58,7 @@ export default class Login extends React.Component {
                 <Text style={styles.subTitle}>Goal name</Text>
                 <TextInput
                     style={styles.input}
-                    onChangeText={() => console.log("pls work")}
+                    onChangeText={(e) => this.setState({name : e})}
                     placeholder="Name of goal"
                     keyboardType="numeric"
                 />

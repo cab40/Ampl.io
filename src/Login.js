@@ -16,6 +16,7 @@ export default class Login extends React.Component {
 
     login = async () => {
         await AsyncStorage.setItem('username', this.state.username);
+        //console.log(this.state.username);
         this.props.navigation.navigate('Main');
     }
 
