@@ -21,22 +21,14 @@ export default class AddFriendGoal extends React.Component {
             category: 'Select an item'
         }
     }
-  render() {
+    render() {
     return (
-      <View style={styles.container} >
-        <View style={{height: 50}} />
-        <View style = {{backgroundColor:"white", flexDirection: 'row', marginRight: 110, justifyContent: 'space-between', marginTop: 50}}>
-        <Button
-            icon = { <Icon name = 'chevron-left'
-                size={30}
-                color= '#6B6565'/>
-            }
-            buttonStyle={styles.backButton}
-            onPress = {() => this.props.navigation.goBack()}
-        />
-        <Text style = {styles.title}> Set Goal. </Text>
+        <>
+        <Header />
+        <View style={styles.header}>
+            <BackArrow onPress = {() => this.props.navigation.goBack()} />
+            <Text style = {styles.title}> Set Goal. </Text>
         </View>
-
         <View style={styles.container} >
             <SafeAreaView>
                 <Text style={styles.subTitle}>Goal name</Text>
@@ -115,8 +107,8 @@ export default class AddFriendGoal extends React.Component {
                         //source={}
                         />
                     </View> */}
-
-                <Button title="Finish" buttonStyle={styles.button}
+                </SafeAreaView>
+            <Button title="Finish" buttonStyle={styles.button}
                 titleStyle={{fontFamily:'Avenir', fontWeight:'bold', fontSize:22}}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
@@ -125,9 +117,8 @@ export default class AddFriendGoal extends React.Component {
                     end: { x: 0, y: 1 },
                 }}
                 />
-            </SafeAreaView>
         </View>
-        </View>
+        </>
     )
   }
 }
