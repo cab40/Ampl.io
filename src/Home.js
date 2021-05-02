@@ -38,12 +38,12 @@ export default class Home extends React.Component {
     this._interval = setInterval(() => {
       axios.get(`${host}/getGoals/${username}`)
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           this.setState({ goals: response.data})
         }).catch((e) => {
           console.log(e);
         })
-    }, 5000);
+    }, 1000);
   }
 
   componentWillUnmount(){
@@ -57,7 +57,7 @@ export default class Home extends React.Component {
         <Text style={{ fontSize: 30, fontWeight: "600" }}> Today. </Text>
         {/* <GoalRow goalName="Do iBio Homework" completeUsers={["Jocelyn"]} incompleteUsers={["Everybody else"]} frequency={"Daily"} category={"Exercise"} /> */}
 
-        {this.state.goals.filter(goal => goal.frequency === 'Daily').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username}/>)}
+        {this.state.goals.filter(goal => goal.frequency === 'Daily').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username} navigation = {this.props.navigation}/>)}
 
         <View>
           <Text style={{ marginTop: 30, fontSize: 30, fontWeight: "600" }}> This Week. </Text>
@@ -65,7 +65,7 @@ export default class Home extends React.Component {
 
         {/* <GoalRow goalName="goalName" completeUsers={["Raymond", "Rapunzel"]} incompleteUsers={["Olaf", "Johnny"]} frequency={"Weekly"} category={"Exercise"} /> */}
 
-        {this.state.goals.filter(goal => goal.frequency === 'Weekly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username}/>)}
+        {this.state.goals.filter(goal => goal.frequency === 'Weekly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username} navigation = {this.props.navigation}/>)}
 
         <View>
           <Text style={{ marginTop: 30, fontSize: 30, fontWeight: "600" }}> This Month. </Text>
@@ -73,7 +73,7 @@ export default class Home extends React.Component {
 
         {/* <GoalRow goalName="goalName" completeUsers={["Raymond", "Rapunzel"]} incompleteUsers={["Olaf", "Johnny"]} frequency={"Monthly"} category={"Exercise"} /> */}
 
-        {this.state.goals.filter(goal => goal.frequency === 'Monthly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username}/>)}
+        {this.state.goals.filter(goal => goal.frequency === 'Monthly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username} navigation = {this.props.navigation}/>)}
 
         <View style={{ height: 10 }} />
       </ScrollView>
@@ -87,23 +87,27 @@ class GoalRow extends React.Component {
     this.state = {
       barWidth: 0,
       checked: this.props.completeUsers.includes(this.props.username),
-      collapsed: true
+      collapsed: true,
     }
   }
 
   toggleProgress = () => {
     console.log(this.props.username);
     console.log(this.props.goalId);
-    axios.post(`${host}/toggleGoal/${this.props.username}/${this.props.goalId}`, {'complete' : this.state.checked})
+
+    this.setState({ 
+      checked: !this.state.checked,
+    },
+    () => axios.post(`${host}/toggleGoal/${this.props.username}/${this.props.goalId}`, {'complete' : this.state.checked})
     .catch((e) => {
       console.log("toggle bad");
       console.log(e.message);
-    })
+    }));
   }
 
   renderProgressBar = () => {
     let completed = this.props.completeUsers.length;
-    if (this.state.checked) {
+    if (this.state.checked && !this.props.completeUsers.includes(this.props.username)) {
       completed++;
     }
 
@@ -141,7 +145,7 @@ class GoalRow extends React.Component {
         <View style={GoalStyle.RowStack}>
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => { LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); this.setState({ checked: !this.state.checked }, () => this.toggleProgress()) }}
+            onPress={() => { LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); this.toggleProgress() }}
             style={{ borderRadius: 13, alignItems: "center", justifyContent: "center", marginRight: 10, height: 26, width: 26, backgroundColor: "#FFFFFF" }}
           >
             {this.state.checked ?
