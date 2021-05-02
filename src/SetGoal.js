@@ -14,7 +14,7 @@ export default class SetGoal extends React.Component{
         <Text style = {{color: 'white', fontSize: 20, marginTop: 20}}> Set with Friends</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style = {{marginTop: 30, backgroundColor: '#c1e7e1', height: 200, width: 300, justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
+      <TouchableOpacity style = {{marginTop: 30, backgroundColor: '#c1e7e1', height: 200, width: 300, justifyContent: 'center', alignItems: 'center', borderRadius: 20}} onPress = {() => {console.log("hey"); this.props.navigation.navigate('Matchgoal')}}>
         <FindFriend />
         <Text style = {{color: 'white', fontSize: 20, marginTop: 20}}> Match with Others</Text>
       </TouchableOpacity>
