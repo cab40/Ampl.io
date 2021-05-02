@@ -48,6 +48,12 @@ export default class Login extends React.Component {
           }}
           onPress = {this.login}
         />
+        <View style={styles.row}>
+        <Text style={styles.signUp}>No account? </Text>
+        <Button title="Sign Up!" buttonStyle={styles.signUpBtn} type='clear'
+          titleStyle={{color:'#82b8b0', fontFamily:'Avenir'}}
+        />
+        </View>
       </View>
     )
   }
@@ -66,18 +72,32 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   input : {
-    height: 40,
-    width: 180,
+    height: 45,
+    width: 200,
     margin: 12,
     padding: 12,
     borderColor: '#E1E8FC',
-    borderWidth: 2,
+    borderWidth: 3,
     borderStyle: 'solid',
-    borderRadius: 20
+    borderRadius: 30
   },
   button: {
-    width: 180,
-    borderRadius: 20,
-    marginTop: 30,
+    width: 200,
+    height: 60,
+    borderRadius: 40,
+    marginTop: 80,
+    alignItems: 'center'
+  },
+  signUpBtn : {
+    color: 'blue',
+
+  },
+  signUp : {
+    marginTop: 13,
+    color: '#82b8b0',
+    fontFamily: 'Avenir'
+  },
+  row : {
+    flexDirection: 'row'
   }
 });
