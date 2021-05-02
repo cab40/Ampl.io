@@ -1,33 +1,54 @@
-import React, { Component, useState } from 'react';
-import { TouchableOpacity, SafeAreaView, TextInput, StyleSheet, Text, Dimensions, View, Image} from 'react-native';
+import React from 'react';
+import { SafeAreaView, TextInput, StyleSheet, Text, Dimensions, View, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
 import RNPickerSelect from 'react-native-picker-select';
-import BackArrow from '../assets/svgs/BackArrow';
-import Header from './Header';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const width_proportion80 = '80%';
 const width_proportion100 = '100%';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default class AddFriendGoal extends React.Component {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            frequency: 'Select an item',
-            category: 'Select an item'
-        }
+export default class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      frequency: 'Select an item',
+      category: 'Select an item'
     }
-    render() {
+  }
+
+  sendGoal = () => {
+    console.log("hey");
+    console.log(AsyncStorage.getItem('username'));
+    axios.post(`http://localhost:5000/createGoal/${AsyncStorage.getItem('username')}`, {
+      name : this.state.name, 
+      frequency : this.state.frequency,
+      category : this.state.category
+    })
+    .catch((e) => {
+      console.log("bad");
+      console.log(e.message);
+    });
+  }
+
+  render() {
     return (
-        <>
-        <Header />
-        <View style={styles.header}>
-            <BackArrow onPress = {() => this.props.navigation.goBack()} />
-            <Text style = {styles.title}> Set Goal. </Text>
+      <SafeAreaView style={styles.container} >
+        <View style={{ flexDirection: 'row', marginRight: 110, justifyContent: 'space-between', marginTop: 50 }}>
+          <Button
+            icon={<Icon name='chevron-left'
+              size={30}
+              color='#6B6565' />
+            }
+            buttonStyle={styles.backButton}
+            onPress={() => this.props.navigation.goBack()}
+          />
+          <Text style={styles.title}> Set Goal. </Text>
         </View>
         <View style={styles.container} >
             <SafeAreaView>
@@ -56,69 +77,72 @@ export default class AddFriendGoal extends React.Component {
                 />
                 </View>
 
-                <Text style={styles.subTitle}>Category</Text>
+        <SafeAreaView>
+          <Text style={styles.subTitle}>Category</Text>
 
-                <View style = {styles.input}>
-                <RNPickerSelect
-                    onValueChange = {(itemValue) =>
-                    this.setState({category: itemValue})}
-                    value = {this.state.category}
-                    style = {pickerSelectStyles}
-                    items={[
-                    { label: `Education`, value: 'Education' },
-                    { label: `Exercise`, value: 'Exercise' },
-                    { label: `Health`, value: 'Health' },
-                    { label: `Lifestyle`, value: 'Lifestyle' },
-                    ]}
-                />
-                </View>
+          <View style={styles.input}>
+            <RNPickerSelect
+              onValueChange={(itemValue) =>
+                this.setState({ category: itemValue })}
+              value={this.state.category}
+              style={pickerSelectStyles}
+              items={[
+                { label: `Education`, value: 'Education' },
+                { label: `Exercise`, value: 'Exercise' },
+                { label: `Health`, value: 'Health' },
+                { label: `Lifestyle`, value: 'Lifestyle' },
+              ]}
+            />
+          </View>
 
-                <Text style={styles.subTitle}>Friend code</Text>
+          <Text style={styles.subTitle}>Friend code</Text>
 
-                    < View style={styles.row}>
-                        <TextInput
-                            style={[styles.input, styles.addFriend]}
-                            onChangeText={() => console.log("pls work")}
-                            placeholder="Enter friend code"
-                            keyboardType="numeric"
-                        />
+          < View style={styles.row}>
+            <TextInput
+              style={[styles.input, styles.addFriend]}
+              onChangeText={() => console.log("pls work")}
+              placeholder="Enter friend code"
+              keyboardType="numeric"
+            />
 
-                        <Button 
-                            onPress={this.handleClick}
-                            icon={
-                                <Icon
-                                name="plus"
-                                size={20}
-                                color="white"
-                                />}
-                            buttonStyle={[styles.button, styles.addButton]}
-                            ViewComponent={LinearGradient}
-                            linearGradientProps={{
-                                colors: ['#C1E7E1', '#AEE1DA'],
-                                start: { x: 0, y: 0 },
-                                end: { x: 0, y: 1 },
-                            }}
-                        />
-                    </View>
+            <Button
+              onPress={this.handleClick}
+              icon={
+                <Icon
+                  name="plus"
+                  size={20}
+                  color="white"
+                />}
+              buttonStyle={[styles.button, styles.addButton]}
+              ViewComponent={LinearGradient}
+              linearGradientProps={{
+                colors: ['#C1E7E1', '#AEE1DA'],
+                start: { x: 0, y: 0 },
+                end: { x: 0, y: 1 },
+              }}
+            />
+          </View>
 
-                    {/* <View style={styles.row}>
-                        INSERT THE PROFILE PICS HERE
-                        <Image style={styles.img}
-                        //source={}
-                        />
-                    </View> */}
-                </SafeAreaView>
-            <Button title="Finish" buttonStyle={styles.button}
-                titleStyle={{fontFamily:'Avenir', fontWeight:'bold', fontSize:22}}
-                ViewComponent={LinearGradient}
-                linearGradientProps={{
-                    colors: ['#C1E7E1', '#AEE1DA'],
-                    start: { x: 0, y: 0 },
-                    end: { x: 0, y: 1 },
-                }}
-                />
+          {/* <View style={styles.row}>
+                    INSERT THE PROFILE PICS HERE
+                    <Image style={styles.img}
+                    //source={}
+                    />
+                </View> */}
+
+          <Button title="Finish" buttonStyle={styles.button} onPress = {this.sendGoal}
+            titleStyle={{ fontFamily: 'Avenir', fontWeight: 'bold', fontSize: 22 }}
+            ViewComponent={LinearGradient}
+            linearGradientProps={{
+              colors: ['#C1E7E1', '#AEE1DA'],
+              start: { x: 0, y: 0 },
+              end: { x: 0, y: 1 },
+            }}
+          />
+          </SafeAreaView>
+          </SafeAreaView>
         </View>
-        </>
+      </SafeAreaView>
     )
   }
 }
@@ -130,29 +154,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 20,
   },
-  header : {
-    flexDirection:"row",
+  header: {
+    flexDirection: "row",
     paddingTop: 30,
     paddingBottom: 20,
     alignItems: "center",
-    backgroundColor:"white",
+    backgroundColor: "white",
     paddingLeft: 20
   },
-  title : {
+  title: {
     fontFamily: 'Avenir',
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     paddingLeft: 85,
   },
-  subTitle : {
+  subTitle: {
     fontFamily: 'Avenir',
     fontSize: 20,
     marginBottom: 10,
     marginTop: 20,
     color: '#6B6565'
   },
-  input : {
+  input: {
     height: 40,
     width: width_proportion100,
     padding: 8,
@@ -169,15 +193,15 @@ const styles = StyleSheet.create({
     marginLeft: 95,
     alignItems: 'center'
   },
-  row : {
+  row: {
     flexDirection: 'row'
   },
-  addFriend : {
+  addFriend: {
     width: width_proportion80,
     marginBottom: 30,
     justifyContent: 'flex-start'
   },
-  addButton : {
+  addButton: {
     width: 40,
     height: 40,
     marginTop: 0,
@@ -186,18 +210,18 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     justifyContent: 'flex-end'
   },
-  backButton : {
+  backButton: {
     backgroundColor: 'transparent',
     width: 40,
     paddingVertical: -1
   },
-  img : {
-      width: 60,
-      height: 60,
-      backgroundColor: '#F2F3F3',
-      borderRadius: 50
+  img: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#F2F3F3',
+    borderRadius: 50
   },
-  pickerStyle : {
+  pickerStyle: {
     width: width_proportion100,
     borderRadius: 20,
     height: 40,
