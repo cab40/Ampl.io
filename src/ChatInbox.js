@@ -44,7 +44,7 @@ export default class ChatInbox extends React.Component {
             {
                 messages: [
                     {sender: "Alvin", id:"123", message: "I love olaf"},
-                    {sender: "Olaf", id:"323", message: "I love you to Alvin!!"},
+                    {sender: "Olaf", id:"323", message: "I love you too Alvin!!"},
                     {sender: "Alvin", id:"523", message: "Do you want to go build a snowman?? Its nice and cold outside"},
                     {sender: "Alvin", id:"623", message: "Or we can go make some snow angels :)"},
                     {sender: "Raymond", id:"723", message: "Isnt is the summer? How are you going to build a snowman"},
@@ -65,7 +65,7 @@ export default class ChatInbox extends React.Component {
                 ],
                 read: true,
                 id: "asdf142",
-                name: "Daily Math Exercizes",
+                name: "Daily Math Exercises",
                 category: "Education",
                 members: ["Alvin", "Raymond", "Catherine", "Jocelyn"]
             },
