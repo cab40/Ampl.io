@@ -9,16 +9,20 @@ import CheckIcon from '../assets/svgs/CheckIcon';
 import axios from 'axios';
 import {host} from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserAvatar from 'react-native-user-avatar';
 
 export default class Home extends React.Component{
-    state = {};
+    state = {
+        goals : []
+    };
 
     async componentDidMount(){
         let username = await AsyncStorage.getItem('username');
         axios.get(`${host}/getGoals/${username}`)
-        .then((data) => {
+        .then((res) => {
+            console.log(res.data);
             this.setState({
-                data : data
+                goals : res.data
             })
         })
         .catch((e) => {
@@ -31,23 +35,26 @@ export default class Home extends React.Component{
             <ScrollView style = {styles.container} showsVerticalScrollIndicator={false}>
                 <View style = {{height: 20}}/>
                 <Text style={{fontSize: 30, fontWeight: "600"}}> Today. </Text>
-                <GoalRow />
-                <GoalRow />
+                <GoalRow goalName = "IBio" completeUsers = {["Jocelyn"]} incompleteUsers = {["Everybody else"]} frequency = {"Daily"} category = {"Exercise"}/>
+
+                {this.state.goals.filter(goal => goal.frequency === 'Daily').map(goal => <GoalRow key = {goal.name} goalName = {goal.name} completeUsers = {goal.complete} incompleteUsers = {goal.incomplete} frequency = {goal.frequency} category = {goal.category}/>)}
 
                 <View>
                     <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Week. </Text>
                 </View>
-                <GoalRow />
-                <GoalRow />
-                <GoalRow />
+
+                <GoalRow goalName = "goalName" completeUsers = {["Raymond", "Rapunzel"]} incompleteUsers = {["Olaf", "Johnny"]} frequency = {"Monthly"} category = {"Exercise"}/>
+
+                {this.state.goals.filter(goal => goal.frequency === 'Monthly').map(goal => <GoalRow key = {goal.name} goalName = {goal.name} completeUsers = {goal.complete} incompleteUsers = {goal.incomplete} frequency = {goal.frequency} category = {goal.category}/>)}
 
                 <View>
                     <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Month. </Text>
                 </View>
-                <GoalRow />
-                <GoalRow />
-                <GoalRow />
-                <GoalRow />
+
+                <GoalRow goalName = "goalName" completeUsers = {["Raymond", "Rapunzel"]} incompleteUsers = {["Olaf", "Johnny"]} frequency = {"Monthly"} category = {"Exercise"}/>
+
+                {this.state.goals.filter(goal => goal.frequency === 'Monthly').map(goal => <GoalRow key = {goal.name} goalName = {goal.name} completeUsers = {goal.complete} incompleteUsers = {goal.incomplete} frequency = {goal.frequency} category = {goal.category}/>)}
+                
                 <View style = {{height: 10}}/>
             </ScrollView>
         );
@@ -113,54 +120,47 @@ class GoalRow extends React.Component{
                     </TouchableOpacity>
 
                     <View style={{flex: 1, marginRight:50, justifyContent: "space-between"}} onLayout={(event) => {var {height, width} = event.nativeEvent.layout; this.setState({barWidth: width})}} >
-                        <Text style={{marginBottom: 10}}>Goal Name</Text>
+                        <Text style={{marginBottom: 10}}>{this.props.goalName}</Text>
                         {this.renderProgressBar()}
                     </View>
+
                     <TouchableOpacity onPress={this.toggleCollapse} activeOpacity={0.8} style={{flex: 0.2,alignItems:"flex-end", justifyContent: "space-between"}}>
                         <View style={{height: 18, flexDirection:"row", alignItems:"center", justifyContent:"flex-end"}}>
-                            <Text style={{color: "#6B6565", fontWeight: '600', fontSize:16, marginRight:5}}>4</Text>
+                            <Text style={{color: "#6B6565", fontWeight: '600', fontSize:16, marginRight:5}}>{this.props.completeUsers.length + this.props.incompleteUsers.length}</Text>
                             <People />
                         </View>
                         {this.state.collapsed ? <DownIcon /> : <UpIcon />}
                     </TouchableOpacity>
                 </View>
                 <View style={[{width:"100%", marginTop: this.state.collapsed ? 0 : 25, overflow:"hidden"}, this.state.collapsed ? {height: 0} : {}]}>
-                    <View style={{flexDirection:"row", marginBottom:15}}>
+                    <View style={{flexDirection:"row", marginBottom:15, justifyContent: 'space-between', borderWidth: 0}}>
+                        <View style={{flex:1, flexDirection:"column", borderWidth: 0}}>
+                            <Text>Incomplete</Text>
+                            {this.props.incompleteUsers.map(user => <View key = {user} style={{flexDirection:"row", alignItems:"center", marginTop:5}}>
+                                <View style={{backgroundColor:"#C1E7E1", alignItems:"center", width:26, height:26, borderRadius:13, justifyContent:"center"}}>
+                                    <Text style={{fontWeight:"600", fontSize: 12, color:"white", textAlign:"center"}}>{user.slice(0, 2)}</Text>
+                                </View>
+                                <Text style={{color:"#6B6565", fontSize: 12, fontWeight: "500", marginLeft: 5}}>{user} </Text>
+                            </View>)}
+                        </View>
+
                         <View style={{flex:1, flexDirection:"column"}}>
                             <Text>Complete</Text>
-                            <View style={{flexDirection:"row", alignItems:"center", marginTop:5}}>
+                            {this.props.completeUsers.map(user => <View key = {user} style={{flexDirection:"row", alignItems:"center", marginTop:5}}>
                                 <View style={{backgroundColor:"#C1E7E1", alignItems:"center", width:26, height:26, borderRadius:13, justifyContent:"center"}}>
-                                    <Text style={{fontWeight:"600", fontSize: 12, color:"white", textAlign:"center"}}>RW</Text>
+                                    <Text style={{fontWeight:"600", fontSize: 12, color:"white", textAlign:"center"}}>{user.slice(0, 2)}</Text>
                                 </View>
-                                <Text style={{color:"#6B6565", fontSize: 12, fontWeight: "500", marginLeft: 5}}>User3 Name </Text>
-                            </View>
-                        </View>
-                        <View style={{flex:1, flexDirection:"column"}}>
-                            <Text>Incomplete</Text>
-                            <View style={{flexDirection:"row", alignItems:"center", marginTop:5}}>
-                                <View style={{backgroundColor:"#C1E7E1", alignItems:"center", width:26, height:26, borderRadius:13, justifyContent:"center"}}>
-                                    <Text style={{fontWeight:"600", fontSize: 12, color:"white", textAlign:"center"}}>RW</Text>
-                                </View>
-                                <Text style={{color:"#6B6565", fontSize: 12, fontWeight: "500", marginLeft: 5}}>User3 Name </Text>
-                            </View>
-                            <View style={{flexDirection:"row", alignItems:"center", marginTop:5}}>
-                                <View style={{backgroundColor:"#C1E7E1", alignItems:"center", width:26, height:26, borderRadius:13, justifyContent:"center"}}>
-                                    <Text style={{fontWeight:"600", fontSize: 12, color:"white", textAlign:"center"}}>RW</Text>
-                                </View>
-                                <Text style={{color:"#6B6565", fontSize: 12, fontWeight: "500", marginLeft: 5}}>User3 Name </Text>
-                            </View>
-                            <View style={{flexDirection:"row", alignItems:"center", marginTop:5}}>
-                                <View style={{backgroundColor:"#C1E7E1", alignItems:"center", width:26, height:26, borderRadius:13, justifyContent:"center"}}>
-                                    <Text style={{fontWeight:"600", fontSize: 12, color:"white", textAlign:"center"}}>RW</Text>
-                                </View>
-                                <Text style={{color:"#6B6565", fontSize: 12, fontWeight: "500", marginLeft: 5}}>User3 Name </Text>
-                            </View>
+
+                                <Text style={{color:"#6B6565", fontSize: 12, fontWeight: "500", marginLeft: 5}}>{user}</Text>
+                            </View>)
+                        }  
                         </View>
                     </View>
+                    
                     <View style={{flexDirection:"row", width:"100%", justifyContent:"space-between"}}>
                         <View>
                             <Text style={{fontSize: 14, color:"#6B6565"}}>Details</Text>
-                            <Text style={{fontSize: 12, color:"#6B6565"}} >Category: Exercise {"\t"} Occurence:Daily</Text>
+                            <Text style={{fontSize: 12, color:"#6B6565"}} >Category: {this.props.category} {"\t"} Occurence: {this.props.frequency}</Text>
                         </View>
                         <MessageIcon onPress = {() => this.props.navigation.navigate('ChatInbox')} />
                     </View>
