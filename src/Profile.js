@@ -22,13 +22,15 @@ export default class Profile extends React.Component {
     selectedIndex: 0,
     timeLine: '5',
     timeUnit: 'Days',
-    username: ""
+    username: "",
+    FriendCode: "28cx89"
   };
 
   async componentDidMount(){
     let username = await AsyncStorage.getItem('username');
+    let FriendCode = await AsyncStorage.getItem('FriendCode');
     this.setState({
-      username : username
+      username, FriendCode
     })
   }
 
@@ -65,7 +67,7 @@ export default class Profile extends React.Component {
           </View>
           <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'space-between'}}>
             <Text style={{ fontWeight: 'bold' }}> Friend Code: </Text>
-            <Text style={{ color: "#B8CFF2", fontWeight: '700' }}> 28cx89 </Text>
+            <Text style={{ color: "#B8CFF2", fontWeight: '700' }}> {this.state.FriendCode}</Text>
           </View>
           </View>
         </View>
