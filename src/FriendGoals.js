@@ -127,7 +127,7 @@ export default class AddFriendGoal extends React.Component {
                 />
             </SafeAreaView>
         </View>
-        </>
+        </View>
     )
   }
 }
