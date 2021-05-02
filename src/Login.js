@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import { SafeAreaView, TextInput, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage' 
 import { Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
 export default class Login extends React.Component {
-  state = {};
+    constructor(props){
+        super(props);
+        this.state = {
+            username: "",
+            password: ""
+        }
+    }
+
+    login = async () => {
+        await AsyncStorage.setItem('username', this.state.username);
+        this.props.navigation.navigate('Main');
+    }
 
   render() {
     return (
@@ -14,17 +26,16 @@ export default class Login extends React.Component {
         <SafeAreaView>
           <TextInput
             style={styles.input}
-            onChangeText={() => console.log("hi")}
-            //value={'2'}
+            onChangeText={(e) => {this.setState({username: e})}}
+            value={this.state.username}
             placeholder="Username"
-            keyboardType="numeric"
           />
           <TextInput
             style={styles.input}
-            onChangeText={() => console.log("hi")}
-            //value={'2'}
+            onChangeText={(e) => {this.setState({password: e})}}
+            value={this.state.password}
             placeholder="Password"
-            keyboardType="numeric"
+            secureTextEntry
           />
         </SafeAreaView>
 
@@ -35,7 +46,7 @@ export default class Login extends React.Component {
             start: { x: 0, y: 0 },
             end: { x: 0, y: 1 },
           }}
-          onPress = {() => this.props.navigation.navigate('Main')}
+          onPress = {this.login}
         />
         <View style={styles.row}>
         <Text style={styles.signUp}>No account? </Text>

@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import Main from './Main';
-import { SafeAreaView, TextInput, StyleSheet, Text, View, Image, Picker } from 'react-native';
+import { TouchableOpacity, SafeAreaView, TextInput, StyleSheet, Text, Dimensions, View, Image, Picker } from 'react-native';
 import { Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
@@ -10,13 +10,18 @@ import Header from './Header';
 
 const width_proportion80 = '80%';
 const width_proportion100 = '100%';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
-export default class FriendGoals extends React.Component {
-  state = {
-      frequency: 'Select an item',
-      category: 'Select an item'
-  };
+export default class Login extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            frequency: 'Select an item',
+            category: 'Select an item'
+        }
+    }
   render() {
     return (
         <>

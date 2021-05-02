@@ -1,10 +1,11 @@
 import React from 'react';
-import {ScrollView, TextInput, StatusBar, StyleSheet, Text, View } from 'react-native';
+import {TouchableOpacity, ScrollView, TextInput, StatusBar, StyleSheet, Text, View } from 'react-native';
 import Dumbbell from '../assets/svgs/Dumbbell';
 import Education from '../assets/svgs/Education';
 import Health from '../assets/svgs/Health';
 import BackArrow from '../assets/svgs/BackArrow';
 import Search from '../assets/svgs/Search';
+import AsyncStorage from '@react-native-async-storage/async-storage' 
 
 export default class ChatInbox extends React.Component {
     constructor(props){
@@ -12,7 +13,8 @@ export default class ChatInbox extends React.Component {
         this.state = {
             searchQuery: "",
             searchResults: [],
-            allChats: []
+            allChats: [],
+            username: ""
         }
     }
 
@@ -31,22 +33,36 @@ export default class ChatInbox extends React.Component {
     }
 
     renderChats = () => {
-        return this.state.searchResults.map(chat => <ChatCard key={chat.id} data={chat} />);
+        return this.state.searchResults.map(chat => {
+            return <ChatCard navigation={this.props.navigation} username={this.state.username} key={chat.id} data={chat} /> 
+        });
     }
 
-    componentDidMount(){
-        console.log("mount");
+    async componentDidMount(){
+        let username = await AsyncStorage.getItem('username');
         let chats = [
             {
-                messages: [{sender: "Alvin", message: "I love olaf"}],
+                messages: [
+                    {sender: "Alvin", id:"123", message: "I love olaf"},
+                    {sender: "Olaf", id:"323", message: "I love you to Alvin!!"},
+                    {sender: "Alvin", id:"523", message: "Do you want to go build a snowman?? Its nice and cold outside"},
+                    {sender: "Alvin", id:"623", message: "Or we can go make some snow angels :)"},
+                    {sender: "Raymond", id:"723", message: "Isnt is the summer? How are you going to build a snowman"},
+                ],
                 read: false,
                 id: "141afs",
                 name: "Watch an episode of frozen",
                 category: "Health",
-                members: ["Alvin", "Olaf", "Shrek", "Anna"]
+                members: ["Alvin", "Olaf", "Shrek", "Anna", "Raymond"]
             },
             {
-                messages: [{sender: "Raymond", message: "Alvin, go do your math!"}],
+                messages: [
+                    {sender: "Raymond", id: "123", message: "Alvin, go do your math!"},
+                    {sender: "Alvin", id: "2", message: "Oh right! Yes of course! I totally forgot"},
+                    {sender: "Alvin", id: "3", message: "Im doing it right now"},
+                    {sender: "Catherine", id: "4", message: "You better be."},
+                    {sender: "Jocelyn", id: "5", message: "Smh Alvin"}
+                ],
                 read: true,
                 id: "asdf142",
                 name: "Daily Math Exercizes",
@@ -54,7 +70,14 @@ export default class ChatInbox extends React.Component {
                 members: ["Alvin", "Raymond", "Catherine", "Jocelyn"]
             },
             {
-                messages: [{sender: "Alvin", message: "Jocelyn, train your model"}],
+                messages: [
+                    {sender: "Alvin", id:"3", message: "Jocelyn, train your model"},
+                    {sender: "Jocelyn", id:"2", message: "I don't know how..."},
+                    {sender: "Jocelyn", id:"5", message: "Can you help me?"},
+                    {sender: "Alvin", id:"4", message: "Loser"},
+                    {sender: "Jocelyn", id:"7", message: "Shut up, Alvin"},
+                    {sender: "Raymond", id:"6", message: ":o"},
+                ],
                 read: false,
                 id: "a21jad",
                 name: "Train Tensorflow Model",
@@ -89,7 +112,8 @@ export default class ChatInbox extends React.Component {
 
         this.setState({
             searchResults: chats,
-            allChats: chats
+            allChats: chats,
+            username
         });
     }
 
@@ -97,7 +121,9 @@ export default class ChatInbox extends React.Component {
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <BackArrow onPress = {() => this.props.navigation.goBack()} />
+                    <TouchableOpacity onPress = {() => this.props.navigation.goBack()} >
+                        <BackArrow />
+                    </TouchableOpacity>
                     <Text style={{marginLeft: 20, color:"#000000", fontSize:30, fontWeight: "600"}}>Chat Inbox.</Text>
                 </View>
 
@@ -122,7 +148,7 @@ class ChatCard extends React.Component {
         }
     }
 
-    componentDidMount(){ //process data here...
+    async componentDidMount(){ //process data here...
         this.setState({
             read: this.props.data.read 
         });
@@ -134,22 +160,27 @@ class ChatCard extends React.Component {
         "Health": <Health />
     }
 
+    goToMessage = () => {
+        this.setState({read: true}); //also need to send to backend to update the data
+        this.props.navigation.navigate('Chat', {data: this.props.data});
+    }
+
     render(){
         let lastMessage = this.props.data.messages[this.props.data.messages.length-1];
 
         return (
-            <View style={CardStyle.mainCard}>
+            <TouchableOpacity style={CardStyle.mainCard} onPress={this.goToMessage}> 
                 {this.icon[this.props.data.category]}
                 <View style={CardStyle.textSection} >
                     <Text numberofLines={1} style={CardStyle.textHeader}>{this.props.data.name}</Text>
-                    <Text numberOfLines={1} style={this.state.read ? CardStyle.readChat : CardStyle.unreadChat}>{lastMessage.sender}: {lastMessage.message}</Text>
+                    <Text numberOfLines={1} style={this.state.read ? CardStyle.readChat : CardStyle.unreadChat}>{lastMessage.sender == this.props.username ? "You" : lastMessage.sender}: {lastMessage.message}</Text>
                 </View>
                 <View style={CardStyle.statusSection}>
                     {this.state.read ? null :
                         <View style={{height: 8, width: 8, borderRadius: 4, backgroundColor: "#F46DA8"}} /> 
                     }
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     }
 }
