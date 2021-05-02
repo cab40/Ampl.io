@@ -14,7 +14,7 @@ export default class SetGoal extends React.Component{
         <Text style = {styles.textStyle}> Set with Friends</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style = {styles.box2} onPress = {() => {console.log("hey"); this.props.navigation.navigate('Matchgoal')}}>
+      <TouchableOpacity style = {[styles.box1, styles.box2]} onPress = {() => {console.log("hey"); this.props.navigation.navigate('Matchgoal')}}>
         <FindFriend />
         <Text style = {styles.textStyle}> Match with Others</Text>
       </TouchableOpacity>
@@ -45,33 +45,20 @@ const styles = StyleSheet.create({
     width: 300, 
     justifyContent: 'center', 
     alignItems: 'center',
-    shadowColor: "#000",
     borderRadius: 20,
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.20,
     shadowRadius: 3.84,
 
     elevation: 5,
   },
   box2 : {
     backgroundColor: '#c1e7e1',
-    height: 200, 
-    width: 300, 
-    justifyContent: 'center', 
-    alignItems: 'center',
-    shadowColor: "#000",
-    borderRadius: 20,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    marginTop: 30,
-    elevation: 5,
+    marginTop: 30
   },
   textStyle : {
     color: 'white', 
