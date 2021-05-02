@@ -13,11 +13,16 @@ import UserAvatar from 'react-native-user-avatar';
 
 export default class Home extends React.Component {
   state = {
-    goals: []
+    goals: [],
+    username : ""
   };
 
   async componentDidMount() {
     let username = await AsyncStorage.getItem('username');
+
+    this.setState({
+      username : username
+    })
 
     axios.get(`${host}/getGoals/${username}`)
       .then((res) => {
@@ -33,8 +38,11 @@ export default class Home extends React.Component {
     this._interval = setInterval(() => {
       axios.get(`${host}/getGoals/${username}`)
         .then((response) => {
+          console.log(response.data);
           this.setState({ goals: response.data})
-        });
+        }).catch((e) => {
+          console.log(e);
+        })
     }, 5000);
   }
 
@@ -47,25 +55,25 @@ export default class Home extends React.Component {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={{ height: 20 }} />
         <Text style={{ fontSize: 30, fontWeight: "600" }}> Today. </Text>
-        <GoalRow goalName="Do iBio Homework" completeUsers={["Jocelyn"]} incompleteUsers={["Everybody else"]} frequency={"Daily"} category={"Exercise"} />
+        {/* <GoalRow goalName="Do iBio Homework" completeUsers={["Jocelyn"]} incompleteUsers={["Everybody else"]} frequency={"Daily"} category={"Exercise"} /> */}
 
-        {this.state.goals.filter(goal => goal.frequency === 'Daily').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} />)}
+        {this.state.goals.filter(goal => goal.frequency === 'Daily').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username}/>)}
 
         <View>
           <Text style={{ marginTop: 30, fontSize: 30, fontWeight: "600" }}> This Week. </Text>
         </View>
 
-        <GoalRow goalName="goalName" completeUsers={["Raymond", "Rapunzel"]} incompleteUsers={["Olaf", "Johnny"]} frequency={"Monthly"} category={"Exercise"} />
+        {/* <GoalRow goalName="goalName" completeUsers={["Raymond", "Rapunzel"]} incompleteUsers={["Olaf", "Johnny"]} frequency={"Weekly"} category={"Exercise"} /> */}
 
-        {this.state.goals.filter(goal => goal.frequency === 'Monthly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} />)}
+        {this.state.goals.filter(goal => goal.frequency === 'Weekly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username}/>)}
 
         <View>
           <Text style={{ marginTop: 30, fontSize: 30, fontWeight: "600" }}> This Month. </Text>
         </View>
 
-        <GoalRow goalName="goalName" completeUsers={["Raymond", "Rapunzel"]} incompleteUsers={["Olaf", "Johnny"]} frequency={"Monthly"} category={"Exercise"} />
+        {/* <GoalRow goalName="goalName" completeUsers={["Raymond", "Rapunzel"]} incompleteUsers={["Olaf", "Johnny"]} frequency={"Monthly"} category={"Exercise"} /> */}
 
-        {this.state.goals.filter(goal => goal.frequency === 'Monthly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} />)}
+        {this.state.goals.filter(goal => goal.frequency === 'Monthly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username}/>)}
 
         <View style={{ height: 10 }} />
       </ScrollView>
@@ -78,9 +86,19 @@ class GoalRow extends React.Component {
     super(props);
     this.state = {
       barWidth: 0,
-      checked: false,
+      checked: this.props.completeUsers.includes(this.props.username),
       collapsed: true
     }
+  }
+
+  toggleProgress = () => {
+    console.log(this.props.username);
+    console.log(this.props.goalId);
+    axios.post(`${host}/toggleGoal/${this.props.username}/${this.props.goalId}`, {'complete' : this.state.checked})
+    .catch((e) => {
+      console.log("toggle bad");
+      console.log(e.message);
+    })
   }
 
   renderProgressBar = () => {
@@ -123,7 +141,7 @@ class GoalRow extends React.Component {
         <View style={GoalStyle.RowStack}>
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => { LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); this.setState({ checked: !this.state.checked }) }}
+            onPress={() => { LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); this.setState({ checked: !this.state.checked }, () => this.toggleProgress()) }}
             style={{ borderRadius: 13, alignItems: "center", justifyContent: "center", marginRight: 10, height: 26, width: 26, backgroundColor: "#FFFFFF" }}
           >
             {this.state.checked ?
