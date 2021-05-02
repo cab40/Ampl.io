@@ -1,6 +1,6 @@
 # Ampl.io
 
-This is the front end for the Ampl.io app, made for RU Hacks 2021
+This is the front end for the Ampl.io app, made for RU Hacks 2021. Check it out on devpost [here](https://devpost.com/software/ampl-io).
 
 ## Prerequisites:
 
