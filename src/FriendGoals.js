@@ -6,35 +6,66 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
 import BackArrow from '../assets/svgs/BackArrow';
 import RNPickerSelect from 'react-native-picker-select';
+import { host } from '../config';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserAvatar from 'react-native-user-avatar';
+import { TouchableOpacity } from 'react-native';
 
 const width_proportion80 = '80%';
 const width_proportion100 = '100%';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default class Login extends React.Component {
+export default class FriendGoals extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: "",
       name: "",
       frequency: 'Select an item',
-      category: 'Select an item'
+      category: 'Select an item',
+      friends: [],
+      friendCode: ""
     }
   }
 
-  sendGoal = async () => {
+  async componentDidMount() {
     let username = await AsyncStorage.getItem('username');
-    axios.post(`http://localhost:5000/createGoal/${username}`, {
-      name : this.state.name, 
-      frequency : this.state.frequency,
-      category : this.state.category,
-      friends : []
+    this.setState({
+      username: username,
+      friends: [username]
+    })
+  }
+
+  findFriend = async () => {
+    console.log("HERE\n");
+    axios.get(`${host}/getUsername/${this.state.friendCode}`)
+      .then((res) => {
+        console.log(this.state.friends, res.data)
+        this.setState({
+          friends: this.state.friends.concat(res.data),
+          friendCode: ""
+        })
+      }).catch((e) => {
+        console.log("bad at finding friends");
+        console.log(e)
+        this.setState({
+          friendCode: ""
+        })
+      })
+  }
+
+  sendGoal = async () => {
+    axios.post(`${host}/createGoal/${this.state.username}`, {
+      name: this.state.name,
+      frequency: this.state.frequency,
+      category: this.state.category,
+      friends: this.state.friends
     }).then(() => {
       this.props.navigation.navigate('Main');
     }).catch((e) => {
-      console.log("bad");
+      console.log("badddd");
       console.log(e.message);
 
       this.props.navigation.navigate('Main');
@@ -43,100 +74,102 @@ export default class Login extends React.Component {
 
   render() {
     return (
-        <>
+      <>
         <Header />
         <View style={styles.header}>
-            <BackArrow onPress = {() => this.props.navigation.goBack()} />
-            <Text style = {styles.title}> Set Goal. </Text>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <BackArrow/>
+          </TouchableOpacity>
+          <Text style={styles.title}> Set Goal. </Text>
         </View>
+        
         <View style={styles.container} >
-            <SafeAreaView >
-                <Text style={styles.subTitle}>Goal name</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(e) => this.setState({name : e})}
-                    placeholder="Name of goal"
-                    keyboardType="numeric"
-                />
-                
-                <Text style={styles.subTitle}>Frequency</Text>
-                
-                <View style = {styles.input}>
-                    <RNPickerSelect
-                        onValueChange = {(itemValue) =>
-                        this.setState({frequency: itemValue})}
-                        value = {this.state.frequency}
-                        style = {pickerSelectStyles}
-                        items={[
-                        { label: `Once`, value: 'Once' },
-                        { label: `Daily`, value: 'Daily' },
-                        { label: `Weekly`, value: 'Weekly' },
-                        { label: `Monthly`, value: 'Monthly' },
-                        ]}
-                    />
-                </View>
-                
-                <Text style={styles.subTitle}>Category</Text>
+          <SafeAreaView >
+            <Text style={styles.subTitle}>Goal name</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(e) => this.setState({ name: e })}
+              placeholder="Name of goal"
+              keyboardType="numeric"
+            />
 
-                <View style={styles.input}>
-                    <RNPickerSelect
-                    onValueChange={(itemValue) =>
-                        this.setState({ category: itemValue })}
-                    value={this.state.category}
-                    style={pickerSelectStyles}
-                    items={[
-                        { label: `Education`, value: 'Education' },
-                        { label: `Exercise`, value: 'Exercise' },
-                        { label: `Health`, value: 'Health' },
-                        { label: `Lifestyle`, value: 'Lifestyle' },
-                    ]}
-                    />
-                </View>
+            <Text style={styles.subTitle}>Frequency</Text>
 
-                <Text style={styles.subTitle}>Friend code</Text>
+            <View style={styles.input}>
+              <RNPickerSelect
+                onValueChange={(itemValue) =>
+                  this.setState({ frequency: itemValue })}
+                value={this.state.frequency}
+                style={pickerSelectStyles}
+                items={[
+                  { label: `Once`, value: 'Once' },
+                  { label: `Daily`, value: 'Daily' },
+                  { label: `Weekly`, value: 'Weekly' },
+                  { label: `Monthly`, value: 'Monthly' },
+                ]}
+              />
+            </View>
 
-                < View style={styles.row}>
-                    <TextInput
-                    style={[styles.input, styles.addFriend]}
-                    onChangeText={() => console.log("pls work")}
-                    placeholder="Enter friend code"
-                    keyboardType="numeric"
-                    />
+            <Text style={styles.subTitle}>Category</Text>
 
-                    <Button
-                    onPress={this.handleClick}
-                    icon={
-                        <Icon
-                        name="plus"
-                        size={20}
-                        color="white"
-                        />}
-                    buttonStyle={[styles.button, styles.addButton]}
-                    ViewComponent={LinearGradient}
-                    linearGradientProps={{
-                        colors: ['#C1E7E1', '#AEE1DA'],
-                        start: { x: 0, y: 0 },
-                        end: { x: 0, y: 1 },
-                    }}
-                    />
-                </View>
+            <View style={styles.input}>
+              <RNPickerSelect
+                onValueChange={(itemValue) =>
+                  this.setState({ category: itemValue })}
+                value={this.state.category}
+                style={pickerSelectStyles}
+                items={[
+                  { label: `Education`, value: 'Education' },
+                  { label: `Exercise`, value: 'Exercise' },
+                  { label: `Health`, value: 'Health' },
+                  { label: `Lifestyle`, value: 'Lifestyle' },
+                ]}
+              />
+            </View>
 
-                    {/* <View style={styles.row}>
-                                INSERT THE PROFILE PICS HERE
-                                <Image style={styles.img}
-                                //source={}
-                                />
-                            </View> */}
-            </SafeAreaView>
-        <Button title="Finish" buttonStyle={styles.button} onPress = {this.sendGoal}
-        titleStyle={{ fontFamily: 'Avenir', fontWeight: 'bold', fontSize: 22 }}
-        ViewComponent={LinearGradient}
-        linearGradientProps={{
-            colors: ['#C1E7E1', '#AEE1DA'],
-            start: { x: 0, y: 0 },
-            end: { x: 0, y: 1 },
-        }}
-        />
+            <Text style={styles.subTitle}>Friend code</Text>
+
+            < View style={styles.row}>
+              <TextInput
+                style={[styles.input, styles.addFriend]}
+                onChangeText={(e) => { this.setState({ friendCode: e }) }}
+                value={this.state.friendCode}
+                placeholder="Enter friend code"
+                keyboardType="numeric"
+              />
+
+              <Button
+                onPress={this.findFriend}
+                icon={
+                  <Icon
+                    name="plus"
+                    size={20}
+                    color="white"
+                  />}
+                buttonStyle={[styles.button, styles.addButton]}
+                ViewComponent={LinearGradient}
+                linearGradientProps={{
+                  colors: ['#C1E7E1', '#AEE1DA'],
+                  start: { x: 0, y: 0 },
+                  end: { x: 0, y: 1 },
+                }}
+              />
+            </View>
+
+            <View style={styles.row}>
+              {this.state.friends.map(friend => <UserAvatar style = {{marginRight: 10}} bgColor='#b8cff2' size={60} name={friend} key = {friend} />)}
+            </View>
+          </SafeAreaView>
+
+          <Button title="Finish" buttonStyle={styles.button} onPress={this.sendGoal}
+            titleStyle={{ fontFamily: 'Avenir', fontWeight: 'bold', fontSize: 22 }}
+            ViewComponent={LinearGradient}
+            linearGradientProps={{
+              colors: ['#C1E7E1', '#AEE1DA'],
+              start: { x: 0, y: 0 },
+              end: { x: 0, y: 1 },
+            }}
+          />
         </View>
       </>
     )
@@ -190,7 +223,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   row: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   addFriend: {
     width: width_proportion80,
