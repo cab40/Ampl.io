@@ -7,6 +7,7 @@ import Main from './Main';
 import ChatInbox from './ChatInbox';
 import Chat from './Chat';
 import FriendGoals from './FriendGoals';
+import SetGoal from './SetGoal';
 
 const Stack = createStackNavigator(
   //{headerMode: 'none'}
@@ -18,14 +19,14 @@ export default class App extends React.Component {
         <View style={styles.container}>
             <StatusBar style="auto" />
             <NavigationContainer>
-              <Stack.Navigator initialRouteName={"FriendGoals"} screenOptions = {{headerShown: false}}>
-              <Stack.Screen
-                  name="FriendGoals"
-                  component={FriendGoals}
-                />
+              <Stack.Navigator initialRouteName={"Main"} screenOptions = {{headerShown: false}}>
                 <Stack.Screen
                   name="Login"
                   component={Login}
+                />
+                <Stack.Screen
+                  name="FriendGoals"
+                  component={FriendGoals}
                 />
                 <Stack.Screen
                   name="Main"
@@ -38,10 +39,6 @@ export default class App extends React.Component {
                 <Stack.Screen
                   name="Chat"
                   component={Chat}
-                />
-                <Stack.Screen
-                  name="FriendGoals"
-                  component={FriendGoals}
                 />
               </Stack.Navigator>
             </NavigationContainer>

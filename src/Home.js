@@ -14,21 +14,21 @@ export default class Home extends React.Component{
                 <View style = {{height: 20}}/>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={{fontSize: 30, fontWeight: "600"}}> Today. </Text>
-                    <GoalRow />
-                    <GoalRow />
+                    <GoalRow navigation = {this.props.navigation} />
+                    <GoalRow navigation = {this.props.navigation}/>
 
                     <View>
                         <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Week. </Text>
                     </View>
-                    <GoalRow />
-                    <GoalRow />
-                    <GoalRow />
+                    <GoalRow navigation = {this.props.navigation}/>
+                    <GoalRow navigation = {this.props.navigation}/>
+                    <GoalRow navigation = {this.props.navigation}/>
 
                     <View>
                         <Text style={{marginTop: 30, fontSize: 30, fontWeight: "600"}}> This Month. </Text>
                     </View>
-                    <GoalRow />
-                    <GoalRow />
+                    <GoalRow navigation = {this.props.navigation}/>
+                    <GoalRow navigation = {this.props.navigation}/>
                 </ScrollView>
             </ScrollView>
         );
@@ -36,7 +36,6 @@ export default class Home extends React.Component{
 }
 
 class GoalRow extends React.Component{
-
     constructor(props){
         super(props);
         this.state = {
@@ -56,7 +55,7 @@ class GoalRow extends React.Component{
 
         let circles = [];
 
-        for(let i = 0;i <= total; i++){
+        for(let i = 0; i <= total; i++){
             let color = i > completed || completed == 0 ? "#FFFFFF" : "#B8CFF2";
             let offset = -6 + this.state.barWidth*(i/total);
 
@@ -144,7 +143,7 @@ class GoalRow extends React.Component{
                             <Text style={{fontSize: 14, color:"#6B6565"}}>Details</Text>
                             <Text style={{fontSize: 12, color:"#6B6565"}} >Category: Exercise {"\t"} Occurence:Daily</Text>
                         </View>
-                        <MessageIcon />
+                        <MessageIcon onPress = {() => this.props.navigation.navigate('ChatInbox')} />
                     </View>
                 </View>
             </View>

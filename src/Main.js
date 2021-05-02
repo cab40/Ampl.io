@@ -3,8 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Profile from './Profile.js';
-import AddGoal from './AddGoal.js';
-import FriendGoals from './FriendGoals';
+import SetGoal from './SetGoal';
 import Home from './Home.js';
 import { Icon } from 'react-native-elements';
 import Header from './Header.js';
@@ -21,7 +20,7 @@ export default class Main extends React.Component{
 
             if (route.name === 'Profile') {
               iconName = 'person';
-            } else if (route.name === 'Add Goal') {
+            } else if (route.name === 'SetGoal') {
               iconName = 'edit';
             } else if (route.name === 'Home') {
               iconName = 'house';
@@ -30,8 +29,8 @@ export default class Main extends React.Component{
         return <Icon name={iconName} iconStyle={{ color: '#B8CFF2' }} />
       },
     })}>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Add Goal" component={FriendGoals} />
+      <Tab.Screen name="Home" children = {()=> <Home navigation = {this.props.navigation}/>}/>
+      <Tab.Screen name="SetGoal" children={() => <SetGoal navigation = {this.props.navigation}/>} />
       <Tab.Screen name="Profile" children={() => <Profile />} />
     </Tab.Navigator>
     </View>
