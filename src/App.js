@@ -19,10 +19,6 @@ export default class App extends React.Component {
             <StatusBar style="auto" />
             <NavigationContainer>
               <Stack.Navigator initialRouteName={"FriendGoals"} screenOptions = {{headerShown: false}}>
-              <Stack.Screen
-                  name="FriendGoals"
-                  component={FriendGoals}
-                />
                 <Stack.Screen
                   name="Login"
                   component={Login}
