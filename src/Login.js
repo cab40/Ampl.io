@@ -41,6 +41,7 @@ export default class Login extends React.Component {
 
         <Button title="Login" color="red" buttonStyle={styles.button}
           ViewComponent={LinearGradient} // Don't forget this!
+          titleStyle={{fontFamily:'Avenir', fontWeight:'bold', fontSize:22}}
           linearGradientProps={{
             colors: ['#C1E7E1', '#AEE1DA'],
             start: { x: 0, y: 0 },
