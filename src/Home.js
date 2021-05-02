@@ -17,6 +17,16 @@ export default class Home extends React.Component {
     username : ""
   };
 
+  makeCall = () => {
+    axios.get(`${host}/getGoals/${this.state.username}`)
+      .then((response) => {
+        //console.log(response.data);
+        this.setState({ goals: response.data})
+      }).catch((e) => {
+        console.log(e);
+      })
+  }
+
   async componentDidMount() {
     let username = await AsyncStorage.getItem('username');
 
@@ -36,14 +46,8 @@ export default class Home extends React.Component {
       })
 
     this._interval = setInterval(() => {
-      axios.get(`${host}/getGoals/${username}`)
-        .then((response) => {
-          //console.log(response.data);
-          this.setState({ goals: response.data})
-        }).catch((e) => {
-          console.log(e);
-        })
-    }, 1000);
+      this.makeCall();
+    }, 5000);
   }
 
   componentWillUnmount(){
@@ -57,7 +61,9 @@ export default class Home extends React.Component {
         <Text style={{ fontSize: 30, fontWeight: "600" }}> Today. </Text>
         {/* <GoalRow goalName="Do iBio Homework" completeUsers={["Jocelyn"]} incompleteUsers={["Everybody else"]} frequency={"Daily"} category={"Exercise"} /> */}
 
-        {this.state.goals.filter(goal => goal.frequency === 'Daily').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username} navigation = {this.props.navigation}/>)}
+        {this.state.goals.filter(goal => goal.frequency === 'Daily').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username} navigation = {this.props.navigation} 
+        makeCall = {this.makeCall}
+        />)}
 
         <View>
           <Text style={{ marginTop: 30, fontSize: 30, fontWeight: "600" }}> This Week. </Text>
@@ -65,7 +71,9 @@ export default class Home extends React.Component {
 
         {/* <GoalRow goalName="goalName" completeUsers={["Raymond", "Rapunzel"]} incompleteUsers={["Olaf", "Johnny"]} frequency={"Weekly"} category={"Exercise"} /> */}
 
-        {this.state.goals.filter(goal => goal.frequency === 'Weekly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username} navigation = {this.props.navigation}/>)}
+        {this.state.goals.filter(goal => goal.frequency === 'Weekly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username} navigation = {this.props.navigation}
+        makeCall = {this.makeCall}
+        />)}
 
         <View>
           <Text style={{ marginTop: 30, fontSize: 30, fontWeight: "600" }}> This Month. </Text>
@@ -73,7 +81,9 @@ export default class Home extends React.Component {
 
         {/* <GoalRow goalName="goalName" completeUsers={["Raymond", "Rapunzel"]} incompleteUsers={["Olaf", "Johnny"]} frequency={"Monthly"} category={"Exercise"} /> */}
 
-        {this.state.goals.filter(goal => goal.frequency === 'Monthly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username} navigation = {this.props.navigation}/>)}
+        {this.state.goals.filter(goal => goal.frequency === 'Monthly').map(goal => <GoalRow key={goal.name} goalName={goal.name} completeUsers={goal.complete} incompleteUsers={goal.incomplete} frequency={goal.frequency} category={goal.category} goalId = {goal.goalId} username = {this.state.username} navigation = {this.props.navigation}
+        makeCall = {this.makeCall}
+        />)}
 
         <View style={{ height: 10 }} />
       </ScrollView>
@@ -99,7 +109,11 @@ class GoalRow extends React.Component {
       checked: !this.state.checked,
     },
     () => axios.post(`${host}/toggleGoal/${this.props.username}/${this.props.goalId}`, {'complete' : this.state.checked})
-    .catch((e) => {
+    .then(async () => {
+      await this.props.makeCall();
+    }).then(() => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }).catch((e) => {
       console.log("toggle bad");
       console.log(e.message);
     }));
@@ -145,7 +159,7 @@ class GoalRow extends React.Component {
         <View style={GoalStyle.RowStack}>
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => { LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); this.toggleProgress() }}
+            onPress={() => { this.toggleProgress();}}
             style={{ borderRadius: 13, alignItems: "center", justifyContent: "center", marginRight: 10, height: 26, width: 26, backgroundColor: "#FFFFFF" }}
           >
             {this.state.checked ?
