@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import Main from './Main';
-import { TouchableOpacity, SafeAreaView, TextInput, StyleSheet, Text, Dimensions, View, Image, Picker } from 'react-native';
+import { SafeAreaView, TextInput, StyleSheet, Text, View, Image, Picker } from 'react-native';
 import { Button } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
@@ -10,18 +10,13 @@ import Header from './Header';
 
 const width_proportion80 = '80%';
 const width_proportion100 = '100%';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
-export default class Login extends React.Component {
+export default class FriendGoals extends React.Component {
+  state = {
+      frequency: 'Select an item',
+      category: 'Select an item'
+  };
 
-    constructor(props){
-        super(props);
-        this.state = {
-            frequency: 'Select an item',
-            category: 'Select an item'
-        }
-    }
   render() {
     return (
         <>
@@ -73,38 +68,6 @@ export default class Login extends React.Component {
                     ]}
                 />
                 </View>
-
-                <Text style={styles.subTitle}>Friend code</Text>
-                < View style={styles.row}>
-                    <TextInput
-                        style={[styles.input, styles.addFriend]}
-                        onChangeText={() => console.log("pls work")}
-                        placeholder="Enter friend code"
-                        keyboardType="numeric"
-                    />
-                    <Button 
-                        onPress={this.handleClick}
-                        icon={
-                            <Icon
-                            name="plus"
-                            size={20}
-                            color="white"
-                            />}
-                        buttonStyle={[styles.button, styles.addButton]}
-                        ViewComponent={LinearGradient}
-                        linearGradientProps={{
-                            colors: ['#C1E7E1', '#AEE1DA'],
-                            start: { x: 0, y: 0 },
-                            end: { x: 0, y: 1 },
-                        }}
-                    />
-                </View>
-                {/* <View style={styles.row}>
-                    INSERT THE PROFILE PICS HERE
-                    <Image style={styles.img}
-                    source={}
-                    />
-                </View> */}
             </SafeAreaView>
 
             <Button title="Finish" buttonStyle={styles.button}

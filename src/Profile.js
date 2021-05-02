@@ -90,15 +90,14 @@ export default class Profile extends React.Component {
             }} />
           </VictoryChart>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <Text> Before  </Text>
 
             <View style={{ flexDirection: 'row' }}>
               <Text>Last </Text>
                <RNPickerSelect
-                onValueChange={(value) => {console.log(value); console.log(this.state.timeLine); console.log(value !== null)
-                  if(value) this.setState({timeLine: value})
-                  console.log(this.state.timeLine);
+                style = {pickerSelectStyles}
+                onValueChange={(value) => { if(value) this.setState({timeLine: value})
                 }}
                 value = {this.state.timeLine}
                 items={[
@@ -143,4 +142,24 @@ const styles = StyleSheet.create({
     //borderColor: 'blue',
     //borderWidth: 1
   }
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 15,
+    color: 'gray',
+    marginLeft: 5,
+    //borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'blue',
+  },
 });

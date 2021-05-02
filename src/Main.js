@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Profile from './Profile.js';
 import AddGoal from './AddGoal.js';
+import FriendGoals from './FriendGoals';
 import Home from './Home.js';
 import { Icon } from 'react-native-elements';
 import Header from './Header.js';
@@ -30,7 +31,7 @@ export default class Main extends React.Component{
       },
     })}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Add Goal" component={AddGoal} />
+      <Tab.Screen name="Add Goal" component={FriendGoals} />
       <Tab.Screen name="Profile" children={() => <Profile />} />
     </Tab.Navigator>
     </View>
