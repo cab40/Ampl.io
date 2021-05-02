@@ -6,8 +6,26 @@ import DownIcon from '../assets/svgs/DownIcon';
 import UpIcon from '../assets/svgs/UpIcon';
 import MessageIcon from '../assets/svgs/MessageIcon';
 import CheckIcon from '../assets/svgs/CheckIcon';
+import axios from 'axios';
+import {host} from '../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class Home extends React.Component{
+    state = {};
+
+    async componentDidMount(){
+        let username = await AsyncStorage.getItem('username');
+        axios.get(`${host}/getGoals/${username}`)
+        .then((data) => {
+            this.setState({
+                data : data
+            })
+        })
+        .catch((e) => {
+            console.log(e);
+        })
+    }
+
     render(){
         return (
             <ScrollView style = {styles.container} showsVerticalScrollIndicator={false}>

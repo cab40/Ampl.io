@@ -17,6 +17,7 @@ export default class Main extends React.Component{
     <Tab.Navigator screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
+        let colored = focused ? '#b8cff2' : '#cfcfcf';
 
             if (route.name === 'Profile') {
               iconName = 'person';
@@ -26,9 +27,9 @@ export default class Main extends React.Component{
               iconName = 'house';
             }
 
-        return <Icon name={iconName} iconStyle={{ color: '#B8CFF2' }} />
+        return <Icon name={iconName} iconStyle={{color: colored, marginTop: 10}} size = {40}/>
       },
-    })}>
+    })} tabBarOptions = {{activeTintColor: '#c1e7e1', inactiveTintColor: '#b8cff2', showLabel: false}}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Set Goal" component={SetGoal} />
       <Tab.Screen name="Profile" children={() => <Profile />} />

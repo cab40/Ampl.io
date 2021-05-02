@@ -4,6 +4,8 @@ import { ButtonGroup } from 'react-native-elements';
 import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 import RNPickerSelect from 'react-native-picker-select';
 import { ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserAvatar from 'react-native-user-avatar';
 
 const data = [
   { x: 1, y: 67 },
@@ -19,8 +21,16 @@ export default class Profile extends React.Component {
   state = {
     selectedIndex: 0,
     timeLine: '5',
-    timeUnit: 'Days'
+    timeUnit: 'Days',
+    username: ""
   };
+
+  async componentDidMount(){
+    let username = await AsyncStorage.getItem('username');
+    this.setState({
+      username : username
+    })
+  }
 
   render() {
     const buttons = ['D', 'W', 'M'];
@@ -42,19 +52,21 @@ export default class Profile extends React.Component {
     };
     return (
       <ScrollView style={styles.container}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <Image style={styles.picture} source={require('../assets/cute.png')} />
-          <Text style={styles.name}> Full Name </Text>
-        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, borderWidth: 0}}>
+          {/* <Image style={styles.picture} source={require('../assets/cute.png')} /> */}
+          {this.state.username ? <UserAvatar bgColor = '#b8cff2' size={100} name={this.state.username} /> : <View/>}
+          
+          <View>
+          <Text style={styles.name}> {this.state.username} </Text>
 
-        <View>
-          <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+          <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'space-between'}}>
             <Text style={{ fontWeight: 'bold' }}> Goals Completed:</Text>
             <Text> 10 </Text>
           </View>
-          <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-            <Text style={{ fontWeight: 'bold' }}> Friend Code</Text>
-            <Text style={{ color: "#B8CFF2" }}> 28cx89 </Text>
+          <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'space-between'}}>
+            <Text style={{ fontWeight: 'bold' }}> Friend Code: </Text>
+            <Text style={{ color: "#B8CFF2", fontWeight: '700' }}> 28cx89 </Text>
+          </View>
           </View>
         </View>
 
@@ -133,7 +145,8 @@ const styles = StyleSheet.create({
     //borderColor: 'blue',
     //borderWidth: 1,
     textAlign: "center",
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
+    marginBottom: 20
   },
   picture: {
     height: 100,
