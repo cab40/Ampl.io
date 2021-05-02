@@ -23,9 +23,9 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container} >
-          <AppLogo/>
+          <AppLogo />
 
-        <SafeAreaView>
+        <SafeAreaView style={styles.test}>
           <TextInput
             style={styles.input}
             onChangeText={(e) => {this.setState({username: e})}}
@@ -102,5 +102,8 @@ const styles = StyleSheet.create({
   },
   row : {
     flexDirection: 'row'
+  },
+  test : {
+    marginTop: 100
   }
 });
